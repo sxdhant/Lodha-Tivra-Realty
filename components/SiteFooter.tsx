@@ -16,7 +16,7 @@ export function SiteFooter() {
           <div className="footer__logo">
             <p className="footer__partner-label">Developer</p>
             <a className="brand brand--large" href="#top" aria-label={`${site.name}, back to top`}>
-              <BrandLogo variant="reversed" alt="" />
+              <BrandLogo variant="reversed" />
             </a>
           </div>
           <div className="footer__logo">

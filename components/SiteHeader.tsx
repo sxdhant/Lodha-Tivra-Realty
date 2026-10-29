@@ -77,8 +77,8 @@ export function SiteHeader() {
       <header ref={headerRef} className={`site-header${solid ? ' is-solid' : ''}${hidden ? ' is-hidden' : ''}`}>
         <div className="site-header__inner wrap">
           <a className="brand" href="#top" aria-label={`${site.name}, back to top`}>
-            <BrandLogo variant="reversed" className="brand__reversed" alt="" preload />
-            <BrandLogo variant="original" className="brand__original" alt="" loading="eager" />
+            <BrandLogo variant="reversed" className="brand__reversed" preload />
+            <BrandLogo variant="original" className="brand__original" loading="eager" />
           </a>
           <nav className="site-nav" aria-label="Primary">
             <ul>

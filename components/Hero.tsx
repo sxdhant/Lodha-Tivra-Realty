@@ -166,6 +166,7 @@ export function Hero() {
       </div>
       <div className="hero__content wrap">
         <h1 className="hero__title" id="hero-title">
+          <span className="visually-hidden">Lodha luxury residences in Bengaluru. </span>
           <span className="line">
             <span>An Address with</span>
           </span>

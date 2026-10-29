@@ -166,7 +166,8 @@ export function Hero() {
       </div>
       <div className="hero__content wrap">
         <h1 className="hero__title" id="hero-title">
-          <span className="visually-hidden">Lodha luxury residences in Bengaluru. </span>
+          <span className="visually-hidden">Lodha luxury residences in Bengaluru</span>
+          <span aria-hidden="true" style={{ display: 'contents' }}>
           <span className="line">
             <span>An Address with</span>
           </span>
@@ -174,6 +175,7 @@ export function Hero() {
             <span>
               a Sense of <WordRotator start={ready} paused={paused} />
             </span>
+          </span>
           </span>
         </h1>
         <div className="hero__foot">

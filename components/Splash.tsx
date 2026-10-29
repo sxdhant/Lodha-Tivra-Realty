@@ -10,12 +10,12 @@ export function Splash() {
       <span className="splash__curtain splash__curtain--right" />
       <div className="splash__inner">
         <span className="splash__mark">
-          <BrandLogo variant="original" className="splash__logo" alt="" loading="eager" />
+          <BrandLogo variant="original" className="splash__logo" loading="eager" />
         </span>
       </div>
       <div className="splash__partner">
         <p>Channel partner</p>
-        <Image src="/brand/tivra-realty-clear.png" alt="" width={641} height={289} loading="eager" />
+        <Image src="/brand/tivra-realty-clear.png" alt="Tivra Realty" width={641} height={289} loading="eager" />
       </div>
     </div>
   );

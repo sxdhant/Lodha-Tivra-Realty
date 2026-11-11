@@ -178,7 +178,7 @@ export const residences: Residence[] = [
     tags: ['Lakefront living', '89% open space'],
     description: AZUR_INTRO,
     enquire: true,
-    // No RERA row: the developer says it is registered, but no number has been supplied yet.
+    // Two Karnataka RERA registrations, from the developer.
     specs: [
       { label: 'Type', value: '3, 3.5 & 4 BHK, penthouses' },
       { label: 'Unit size', value: sqft('1,900–4,000+') },
@@ -187,6 +187,8 @@ export const residences: Residence[] = [
       { label: 'Total units', value: '558' },
       { label: 'Possession', value: '2028–2029 onwards' },
       { label: 'Price', value: '₹2.5 Cr onwards*' },
+      { label: 'Karnataka RERA (1 of 2)', value: 'PRM/KA/RERA/1251/310/PR/280324/006746', wide: true },
+      { label: 'Karnataka RERA (2 of 2)', value: 'PRM/KA/RERA/1251/310/PR/220324/006728', wide: true },
     ],
     configurations: [
       { type: '3 BHK', size: sqft('1,900–2,150'), price: '₹2.5 Cr onwards*' },
@@ -264,7 +266,7 @@ export const residences: Residence[] = [
     tags: ['Forest-inspired landscape', '80% open space'],
     description: HAVEN_INTRO,
     enquire: true,
-    // No RERA row: the registration number has not been supplied yet.
+    // Two Karnataka RERA registrations, from the developer.
     specs: [
       { label: 'Type', value: '3, 3.5 & 4.5 BHK' },
       { label: 'Unit size', value: sqft('1,076–2,225') + ', net carpet area' },
@@ -274,6 +276,8 @@ export const residences: Residence[] = [
       { label: 'Clubhouse', value: sqft('20,000') },
       { label: 'Possession', value: 'Dec 2028' },
       { label: 'Price', value: '₹2.4 Cr onwards*' },
+      { label: 'Karnataka RERA (1 of 2)', value: 'PRM/KA/RERA/1251/308/PR/260326/008551', wide: true },
+      { label: 'Karnataka RERA (2 of 2)', value: 'PRM/KA/RERA/1251/308/PR/280525/007785', wide: true },
     ],
     configurations: [
       { group: 'Phase 2 · latest launch', type: 'Tower D · 3 BHK + study', size: sqft('1,361'), price: 'Avg. ₹2.9 Cr' },

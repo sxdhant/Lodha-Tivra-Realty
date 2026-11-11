@@ -1,5 +1,5 @@
 // Brand and contact details. The office, phone, WhatsApp and email are the firm's own (October 2026).
-// The registration numbers are placeholders: replace them before launch.
+// The Karnataka RERA agent registration number is Tivra Realty's own.
 export const site = {
   name: 'Lodha Preferred Partner',
   // Replace with your firm's registered name as it should appear in the copyright line.
@@ -28,8 +28,8 @@ export const site = {
     pin: '560076',
     mapHref: 'https://maps.app.goo.gl/VR3vpyspqRPmtzdMA',
   },
-  // Your Karnataka RERA real estate agent registration number.
-  reraAgent: 'PRM/KA/RERA/0000/000/AG/000000',
+  // Tivra Realty's Karnataka RERA real estate agent registration number.
+  reraAgent: 'PRM/KA/RERA/1251/310/AG/211203/002664',
   social: [
     { label: 'Instagram', href: 'https://www.instagram.com/tivrarealty/' },
     { label: 'Facebook', href: 'https://www.facebook.com/TivraRealty/' },

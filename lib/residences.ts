@@ -1,6 +1,6 @@
 // Every residence on the page: the project cards, the detail sheet, the map and
 // the viewing form all read from this list.
-// Lodha Elanza, Lodha Azure and Lodha Haven are real projects, with figures from the partner and
+// Lodha Elanza, Lodha Azur and Lodha Haven are real projects, with figures from the partner and
 // the sources noted beside each. Check them against Lodha's sales material and RERA filings.
 
 export type ResidenceStatus = 'available' | 'launching' | 'completed';
@@ -68,10 +68,10 @@ export const PRICE_NOTE =
 const ELANZA_INTRO =
   'Lodha Elanza is a 19-acre, low-density address on Sarjapur Road, where open space covers most of the land and the towers rise to G+34 floors. Design, craftsmanship and Lodha’s hospitality-led service shape daily life here, from the landscaped grounds to the homes themselves. Choose a 3 BHK Smart, a 3 BHK Luxe or a 3.5 BHK, with an early-bird advantage available on all three.';
 
-// Lodha Azure: the configurations, sizes, prices, amenities and location are from the developer's
-// WhatsApp message (October 2026), reworded here. The developer writes the name as Lodha Azur.
-const AZURE_INTRO =
-  'Lodha Azure is a lakefront community on the edge of Hulimavu Lake, in Akshayanagar off Bannerghatta Road in South Bengaluru. Ten acres, with 89% of the land left open, give it the calm of a waterfront retreat, and a full clubhouse adds resort-style leisure. Homes are planned around deep sundecks and wide views over the water, from 3 BHK residences up to 4 BHK penthouses.';
+// Lodha Azur: the configurations, sizes, prices, amenities and location are from the developer's
+// WhatsApp message (October 2026), reworded here.
+const AZUR_INTRO =
+  'Lodha Azur is a lakefront community on the edge of Hulimavu Lake, in Akshayanagar off Bannerghatta Road in South Bengaluru. Ten acres, with 89% of the land left open, give it the calm of a waterfront retreat, and a full clubhouse adds resort-style leisure. Homes are planned around deep sundecks and wide views over the water, from 3 BHK residences up to 4 BHK penthouses.';
 
 // The partner's 20% annual plan (October 2026), supplied for Lodha Azur, Tower F, and applied to
 // the other projects at the partner's request: confirm each project's real schedule.
@@ -165,9 +165,9 @@ export const residences: Residence[] = [
   },
   {
     id: 'lodha-azure',
-    name: 'Lodha Azure',
+    name: 'Lodha Azur',
     area: 'Akshayanagar, Bannerghatta Road',
-    line: AZURE_INTRO,
+    line: AZUR_INTRO,
     status: 'available',
     statusLabel: 'Available',
     type: '3, 3.5 & 4 BHK, penthouses',
@@ -176,7 +176,7 @@ export const residences: Residence[] = [
     // Renders and aerial composites from the partner's kit (public/gallery/lodha-azure).
     caption: 'Artist’s impression.',
     tags: ['Lakefront living', '89% open space'],
-    description: AZURE_INTRO,
+    description: AZUR_INTRO,
     enquire: true,
     // No RERA row: the developer says it is registered, but no number has been supplied yet.
     specs: [

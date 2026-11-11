@@ -5,7 +5,7 @@ export const site = {
   // Replace with your firm's registered name as it should appear in the copyright line.
   legalName: 'Lodha Preferred Partner',
   description:
-    'Private viewings and plain advice on Lodha’s luxury residences in Bengaluru, from a Lodha Preferred Partner. Explore Lodha Elanza, Azure and Haven.',
+    'Private viewings and plain advice on Lodha’s luxury residences in Bengaluru, from a Lodha Preferred Partner. Explore Lodha Elanza, Azur and Haven.',
   logo: {
     original: '/brand/lodha-preferred-partner.png',
     reversed: '/brand/lodha-preferred-partner-reversed.png',

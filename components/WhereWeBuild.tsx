@@ -37,7 +37,7 @@ export function WhereWeBuild() {
             Locations
           </h2>
           <p className="where__intro">
-            Distances are measured from the Outer Ring Road. Lodha Azure is at Akshayanagar, off Bannerghatta Road to the south,
+            Distances are measured from the Outer Ring Road. Lodha Azur is at Akshayanagar, off Bannerghatta Road to the south,
             Lodha Haven is on Hosa Road, off Sarjapur Road, and Lodha Elanza is further out on Sarjapur Road.
           </p>
         </div>

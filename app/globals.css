@@ -1219,25 +1219,46 @@ figure {
   transition: transform 1.2s var(--ease-out);
 }
 
-/* Offer tag over the top-left of the photo, inset like the caption: a champagne label, readable on any photo. */
-.residence__tag {
+/* Tags over the top-left of the photo, inset like the caption: the offer in champagne, then short
+   labels from the description in frosted dark pills. Readable on any photo. */
+.residence__tags {
   position: absolute;
   top: 0.75rem;
   left: 0.75rem;
+  right: 0.75rem;
   z-index: 1;
-  max-width: calc(100% - 1.5rem);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.375rem;
   margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.residence__tag,
+.residence__chip {
   padding: 0.3125rem 0.75rem;
-  border: 1px solid #e6c26d;
   border-radius: 999px;
-  background: linear-gradient(160deg, #f6e4b0, #d9b96a 55%, #b8934a);
-  box-shadow: 0 0.25rem 0.75rem rgb(23 23 21 / 0.3);
   font-size: 0.6875rem;
   font-weight: 600;
   letter-spacing: 0.08em;
   line-height: 1.2;
   text-transform: uppercase;
+}
+
+.residence__tag {
+  border: 1px solid #e6c26d;
+  background: linear-gradient(160deg, #f6e4b0, #d9b96a 55%, #b8934a);
+  box-shadow: 0 0.25rem 0.75rem rgb(23 23 21 / 0.3);
   color: #2a2113;
+}
+
+.residence__chip {
+  border: 1px solid rgb(255 255 255 / 0.28);
+  background: rgb(23 23 21 / 0.55);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  color: var(--white);
 }
 
 /* Says whether the photo is a render or a photograph. */

@@ -29,6 +29,8 @@ export type Residence = {
   caption: string;
   /** A short offer tag shown over the top-right of the card photo. */
   tag?: string;
+  /** Short descriptive labels shown beside the offer tag on the card photo, taken from the description. */
+  tags?: string[];
   description: string;
   /** Shown in the sheet in place of, or beside, the viewing request. */
   note?: { text: string; callOffice?: boolean };
@@ -100,6 +102,7 @@ export const residences: Residence[] = [
     // Renders from the partner's kit (public/gallery/lodha-elanza).
     caption: 'Artist’s impression.',
     tag: 'Early-bird advantage available',
+    tags: ['Low-density living', '19 acres'],
     description: ELANZA_INTRO,
     enquire: true,
     specs: [
@@ -174,6 +177,7 @@ export const residences: Residence[] = [
     price: '₹2.37 Cr onwards*',
     // Renders and aerial composites from the partner's kit (public/gallery/lodha-azure).
     caption: 'Artist’s impression.',
+    tags: ['Lakefront living', '89% open space'],
     description: AZURE_INTRO,
     enquire: true,
     // No RERA row: the developer says it is registered, but no number has been supplied yet.
@@ -258,6 +262,7 @@ export const residences: Residence[] = [
     price: '₹2.40 Cr onwards*',
     // The photos are stand-ins, not Lodha Haven. Replace them with renders from Lodha's partner kit.
     caption: 'Representative image.',
+    tags: ['Forest-inspired landscape', '80% open space'],
     description: HAVEN_INTRO,
     enquire: true,
     // No RERA row: the registration number has not been supplied yet.

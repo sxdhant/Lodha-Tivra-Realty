@@ -76,7 +76,16 @@ export function Residences() {
             <li key={r.id} id={r.id} className="residence">
               <figure className="residence__media">
                 <CardPhoto residence={r} />
-                {r.tag && <p className="residence__tag">{r.tag}</p>}
+                {(r.tag || r.tags) && (
+                  <ul className="residence__tags">
+                    {r.tag && <li className="residence__tag">{r.tag}</li>}
+                    {r.tags?.map((tag) => (
+                      <li key={tag} className="residence__chip">
+                        {tag}
+                      </li>
+                    ))}
+                  </ul>
+                )}
               </figure>
               <div className="residence__summary">
                 <div className="residence__top">

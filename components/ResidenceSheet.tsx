@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { useEffect } from 'react';
+import { Fragment, useEffect } from 'react';
 import { CloseIcon, DownloadIcon } from '@/components/icons';
 import { GalleryViewer } from '@/components/GalleryViewer';
 import { useResidenceUI } from '@/components/ResidenceProvider';
@@ -145,12 +145,21 @@ function ResidenceDetail({
               </tr>
             </thead>
             <tbody>
-              {r.configurations.map((c) => (
-                <tr key={c.type}>
-                  <th scope="row">{c.type}</th>
-                  <td>{c.size}</td>
-                  <td>{c.price}</td>
-                </tr>
+              {r.configurations.map((c, i) => (
+                <Fragment key={`${c.group}-${c.type}`}>
+                  {c.group && c.group !== r.configurations?.[i - 1]?.group && (
+                    <tr className="configs__group">
+                      <th scope="colgroup" colSpan={3}>
+                        {c.group}
+                      </th>
+                    </tr>
+                  )}
+                  <tr>
+                    <th scope="row">{c.type}</th>
+                    <td>{c.size}</td>
+                    <td>{c.price}</td>
+                  </tr>
+                </Fragment>
               ))}
             </tbody>
           </table>

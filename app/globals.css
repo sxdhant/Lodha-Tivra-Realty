@@ -1555,6 +1555,16 @@ figure {
   font-size: 1.125rem;
 }
 
+/* A phase heading inside the table, where the rows are grouped. */
+.configs .configs__group th {
+  padding-top: 1.25rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gold-deep);
+}
+
 /* Short list of what sets a project apart, in the sheet. */
 .highlights {
   margin: 1rem 0 0;

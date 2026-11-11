@@ -38,7 +38,7 @@ export type Residence = {
   enquire: boolean;
   specs: { label: string; value: string; wide?: boolean }[];
   /** Shown in the sheet as a table under the specifications: each home type with its size and starting price. */
-  configurations?: { type: string; size: string; price: string }[];
+  configurations?: { group?: string; type: string; size: string; price: string }[];
   /** Shown under the configurations table, for what the table cannot say on its own. */
   configurationsNote?: string;
   /** Shown in the sheet as a short list of what sets the project apart. */
@@ -81,10 +81,10 @@ const PAYMENT_PLAN: NonNullable<Residence['paymentPlan']> = {
   schedule: ['2026', '2027', '2028', '2029', '2030'].map((year) => ({ year, share: '20%' })),
 };
 
-// Lodha Haven: the partner's copy, configurations, unit sizes, price, area, units and possession
-// (October 2026). The copy says 9.3 acres; the partner's figure for total area is 6 acres.
+// Lodha Haven: the configurations, sizes, prices, handover and amenities are from the developer's
+// WhatsApp message (October 2026), reworded here. Sizes are net carpet area.
 const HAVEN_INTRO =
-  'Welcome to Lodha Haven, where the tranquillity of nature meets the sophistication of urban living. Spanning 9.3 acres in HSR Extension, at the heart of Bengaluru, this exclusive residential enclave features six elegant towers rising G+22 floors, with fewer than 500 residences and 80% open spaces. Immerse yourself in lush, forest-inspired landscapes, unwind at a 20,000 sq. ft. clubhouse, and experience a rare sense of space, privacy, and serenity. A sanctuary crafted for those who seek an extraordinary balance between nature and contemporary luxury.';
+  'Lodha Haven is a forest-themed community in HSR Extension, in the core of Bengaluru. Over nine acres of dense, forest-inspired landscape, with 80% of the land left open, surround six towers of G+22 floors that hold fewer than 500 homes, and a 20,000 sq ft clubhouse completes the picture. The latest phase adds 3 BHK homes in Towers D and E, while Phase 1 runs from 3 BHK up to 4.5 BHK with a staff room. Handover is from December 2028.';
 
 export const residences: Residence[] = [
   {
@@ -255,22 +255,49 @@ export const residences: Residence[] = [
     line: HAVEN_INTRO,
     status: 'available',
     statusLabel: 'Available',
-    type: '3, 3.5 & 4 BHK',
-    size: sqft('1,656–3,429'),
-    price: '₹2.40 Cr onwards*',
+    type: '3, 3.5 & 4.5 BHK',
+    size: sqft('1,076–2,225'),
+    price: '₹2.4 Cr onwards*',
     // Renders from the partner's kit (public/gallery/lodha-haven).
     caption: 'Artist’s impression.',
+    tag: 'Phase 2 · Latest launch',
     tags: ['Forest-inspired landscape', '80% open space'],
     description: HAVEN_INTRO,
     enquire: true,
     // No RERA row: the registration number has not been supplied yet.
     specs: [
-      { label: 'Type', value: '3, 3.5 & 4 BHK' },
-      { label: 'Unit size', value: sqft('1,656–3,429') },
-      { label: 'Total area', value: '6 acres' },
-      { label: 'Total units', value: '452' },
-      { label: 'Possession', value: 'Jun 2030' },
-      { label: 'Price', value: '₹2.40 Cr onwards*' },
+      { label: 'Type', value: '3, 3.5 & 4.5 BHK' },
+      { label: 'Unit size', value: sqft('1,076–2,225') + ', net carpet area' },
+      { label: 'Total area', value: '9.3 acres, 80% open space' },
+      { label: 'Towers', value: '6 towers, G+22 floors' },
+      { label: 'Total units', value: 'Fewer than 500' },
+      { label: 'Clubhouse', value: sqft('20,000') },
+      { label: 'Possession', value: 'Dec 2028' },
+      { label: 'Price', value: '₹2.4 Cr onwards*' },
+    ],
+    configurations: [
+      { group: 'Phase 2 · latest launch', type: 'Tower D · 3 BHK + study', size: sqft('1,361'), price: 'Avg. ₹2.9 Cr' },
+      { group: 'Phase 2 · latest launch', type: 'Tower D · 3 BHK', size: sqft('1,372'), price: 'Avg. ₹2.9 Cr' },
+      { group: 'Phase 2 · latest launch', type: 'Tower E · 3 BHK', size: sqft('1,379'), price: 'Avg. ₹2.9 Cr' },
+      { group: 'Phase 1', type: '3 BHK', size: sqft('1,076'), price: '₹2.4 Cr onwards' },
+      { group: 'Phase 1', type: '3.5 BHK', size: sqft('1,352'), price: '₹3.1 Cr onwards' },
+      { group: 'Phase 1', type: '3.5 BHK Luxe', size: sqft('1,598'), price: '₹3.6 Cr onwards' },
+      { group: 'Phase 1', type: '4.5 BHK + staff room', size: sqft('2,225'), price: '₹5 Cr onwards' },
+    ],
+    configurationsNote: 'Sizes are net carpet area. Phase 2 prices are the average agreement value; Phase 1 prices exclude registration and maintenance.',
+    highlights: [
+      {
+        title: 'A forest to live in',
+        text: 'The landscape is planned as a dense forest, so homes look out on mature greenery, with 80% of the 9.3 acres left open.',
+      },
+      {
+        title: 'Low-density towers',
+        text: 'Six towers of G+22 floors share the land and hold fewer than 500 homes in all.',
+      },
+      {
+        title: 'Clubhouse',
+        text: 'A 20,000 sq ft clubhouse serves the whole community.',
+      },
     ],
     photo: {
       src: '/gallery/lodha-haven/podium-pool.jpg',

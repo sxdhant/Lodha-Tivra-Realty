@@ -37,6 +37,10 @@ export type Residence = {
   specs: { label: string; value: string; wide?: boolean }[];
   /** Shown in the sheet as a table under the specifications: each home type with its size and starting price. */
   configurations?: { type: string; size: string; price: string }[];
+  /** Shown under the configurations table, for what the table cannot say on its own. */
+  configurationsNote?: string;
+  /** Shown in the sheet as a short list of what sets the project apart. */
+  highlights?: { title: string; text: string }[];
   photo: Photo;
   /** Shown on the project card instead of photo from 48rem, where the card's photo box is close to square. */
   desktopPhoto?: Photo;
@@ -46,7 +50,7 @@ export type Residence = {
   /** Shown in the sheet's gallery in place of secondPhoto, when there is more than one. */
   gallery?: (Photo & { width: number; height: number })[];
   /** Shown in the sheet's Location section: where the map is centred, and what is close by. */
-  location: { lat: number; lng: number; nearby: { kind: string; name: string; km: number }[] };
+  location: { lat: number; lng: number; nearby: { kind: string; name: string; km?: number; time?: string }[] };
   /** Straight-line distance and compass bearing from the Outer Ring Road reference point (13.0278 N, 77.6325 E). */
   map: { km: number; bearing: number; label: 'left' | 'right' };
 };
@@ -64,10 +68,10 @@ export const PRICE_NOTE =
 const ELANZA_INTRO =
   'Lodha Elanza is a 19-acre, low-density address on Sarjapur Road, where open space covers most of the land and the towers rise to G+34 floors. Design, craftsmanship and Lodha’s hospitality-led service shape daily life here, from the landscaped grounds to the homes themselves. Choose a 3 BHK Smart, a 3 BHK Luxe or a 3.5 BHK, with an early-bird advantage available on all three.';
 
-// Lodha Azure (Tower F): the partner's copy, configurations, unit sizes, price, area, units and
-// possession (October 2026).
+// Lodha Azure: the configurations, sizes, prices, amenities and location are from the developer's
+// WhatsApp message (October 2026), reworded here. The developer writes the name as Lodha Azur.
 const AZURE_INTRO =
-  'Introducing Tower F at Lodha Azur, an exclusive collection of premium lake-facing residences crafted for an extraordinary way of life. As the final tower in this distinguished development, it presents a rare opportunity to own a home where breathtaking lake views, exceptional privacy, and expansive living spaces come together in perfect harmony. A coveted address for those who appreciate refined elegance, understated luxury, and the privilege of owning something truly rare.';
+  'Lodha Azure is a lakefront community on the edge of Hulimavu Lake, in Akshayanagar off Bannerghatta Road in South Bengaluru. Ten acres, with 89% of the land left open, give it the calm of a waterfront retreat, and a full clubhouse adds resort-style leisure. Homes are planned around deep sundecks and wide views over the water, from 3 BHK residences up to 4 BHK penthouses.';
 
 // The partner's 20% annual plan (October 2026), supplied for Lodha Azur, Tower F, and applied to
 // the other projects at the partner's request: confirm each project's real schedule.
@@ -161,49 +165,86 @@ export const residences: Residence[] = [
   {
     id: 'lodha-azure',
     name: 'Lodha Azure',
-    area: 'Begur, Bannerghatta Road',
+    area: 'Akshayanagar, Bannerghatta Road',
     line: AZURE_INTRO,
     status: 'available',
     statusLabel: 'Available',
-    type: '3, 3.5 & 4 BHK',
-    size: sqft('1,970–3,080'),
-    price: '₹2.68 Cr onwards*',
-    // The photos are stand-ins, not Lodha Azure. Replace them with renders from Lodha's partner kit.
-    caption: 'Representative image.',
+    type: '3, 3.5 & 4 BHK, penthouses',
+    size: sqft('1,900–4,000+'),
+    price: '₹2.37 Cr onwards*',
+    // Renders and aerial composites from the partner's kit (public/gallery/lodha-azure).
+    caption: 'Artist’s impression.',
     description: AZURE_INTRO,
     enquire: true,
-    // No RERA row: the registration number for Tower F has not been supplied yet.
+    // No RERA row: the developer says it is registered, but no number has been supplied yet.
     specs: [
-      { label: 'Type', value: '3, 3.5 & 4 BHK' },
-      { label: 'Unit size', value: sqft('1,970–3,080') },
-      { label: 'Total area', value: '10 acres' },
+      { label: 'Type', value: '3, 3.5 & 4 BHK, penthouses' },
+      { label: 'Unit size', value: sqft('1,900–4,000+') },
+      { label: 'Total area', value: '10 acres, 89% open space' },
+      { label: 'Setting', value: 'Beside Hulimavu Lake' },
       { label: 'Total units', value: '558' },
-      { label: 'Possession', value: 'Oct 2029' },
-      { label: 'Price', value: '₹2.68 Cr onwards*' },
+      { label: 'Possession', value: '2028–2029 onwards' },
+      { label: 'Price', value: '₹2.37 Cr onwards*' },
+    ],
+    configurations: [
+      { type: '3 BHK', size: sqft('1,900–2,150'), price: '₹2.37 Cr onwards*' },
+      { type: '3.5 BHK (3 BHK + study)', size: sqft('2,250–2,450'), price: '₹2.75 Cr onwards*' },
+      { type: '4 BHK', size: sqft('2,850–3,150'), price: '₹3.50 Cr onwards*' },
+      { type: '4 BHK penthouse / duplex', size: sqft('4,000+'), price: 'On request' },
+    ],
+    configurationsNote: 'Prices depend on the floor, the tower and whether the home faces the lake.',
+    highlights: [
+      {
+        title: 'The residences',
+        text: 'Sundecks six to eight feet deep, double-height entrance lobbies, imported flooring and long views across the lake.',
+      },
+      {
+        title: 'Club Palladio',
+        text: 'A heated indoor pool and an outdoor Olympic-size pool, Café Azur, a gym, a yoga pavilion and sports courts, with a woodland trail along the lake and a park for pets.',
+      },
+      {
+        title: 'Getting around',
+        text: 'About ten minutes from the upcoming Hulimavu station on the Pink Line metro, with quick routes to NICE Road, Electronic City, Kalyani Magnum, Royal Meenakshi Mall, the Fortis and Apollo hospitals and IIM Bangalore.',
+      },
     ],
     photo: {
-      src: unsplash('1600566753190-17f0baa2a6c3'),
-      alt: 'A villa in timber and white render with a deep overhanging upper floor',
+      src: '/gallery/lodha-azure/terrace.jpg',
+      alt: 'A lake-view terrace with a swing seat, lounge chairs and a filigree balustrade at sunset',
+    },
+    desktopPhoto: {
+      src: '/gallery/lodha-azure/tower.jpg',
+      alt: 'The tower rising beside the lake, with trees along the far bank',
+      // A tall picture in a squarer box: favour the upper part, where the tower and its crown are.
+      position: 'center 35%',
     },
     secondPhoto: {
-      src: unsplash('1604014237800-1c9102c219da'),
-      alt: 'An open living and dining room whose timber floor continues out onto a covered deck',
+      src: '/gallery/lodha-azure/clubhouse.jpg',
+      alt: 'The clubhouse, a columned white pavilion beside a swimming pool and palms at dusk',
     },
     paymentPlan: { ...PAYMENT_PLAN, intro: 'Tower F offers the convenience of spreading your investment over five years.' },
-    // Placeholder: a point at Begur and indicative distances.
+    // Renders and aerial composites from the partner's kit, enlarged 2x and sharpened (public/gallery/lodha-azure).
+    gallery: [
+      { src: '/gallery/lodha-azure/aerial-lake.jpg', width: 2560, height: 1562, alt: 'An aerial view of the tower beside a large lake, with the city beyond' },
+      { src: '/gallery/lodha-azure/aerial-tower.jpg', width: 2560, height: 1440, alt: 'An aerial view of the tower and landscaped gardens beside the lake' },
+      { src: '/gallery/lodha-azure/tower.jpg', width: 1656, height: 2090, alt: 'The tower rising beside the lake, with trees along the far bank' },
+      { src: '/gallery/lodha-azure/arrival.jpg', width: 2000, height: 960, alt: 'A drive-in arrival court with a cobbled circle, an arched colonnade and a glazed lobby' },
+      { src: '/gallery/lodha-azure/clubhouse.jpg', width: 2500, height: 1406, alt: 'The clubhouse, a columned white pavilion beside a swimming pool and palms at dusk' },
+      { src: '/gallery/lodha-azure/terrace.jpg', width: 1974, height: 1000, alt: 'A lake-view terrace with a swing seat, lounge chairs and a filigree balustrade at sunset' },
+    ],
+    // Placeholder: an approximate point by Hulimavu Lake, Akshayanagar, and indicative distances.
     location: {
-      lat: 12.872,
-      lng: 77.622,
+      lat: 12.875,
+      lng: 77.61,
       nearby: [
-        { kind: 'Metro', name: 'Bommasandra metro (Yellow Line)', km: 12 },
+        { kind: 'Metro', name: 'Hulimavu metro (Pink Line, upcoming)', time: 'About 10 min' },
         { kind: 'Airport', name: 'Kempegowda International Airport', km: 55 },
         { kind: 'School', name: 'Orchids The International School, Bannerghatta Road', km: 7 },
         { kind: 'Hospital', name: 'Apollo Hospital, Bannerghatta Road', km: 6 },
-        { kind: 'Mall', name: 'Meenakshi Mall, Bannerghatta Road', km: 8 },
+        { kind: 'Mall', name: 'Royal Meenakshi Mall, Bannerghatta Road', km: 8 },
       ],
     },
-    // Begur, Bannerghatta Road: about 17 km south of the Outer Ring Road point.
-    map: { km: 17, bearing: 184, label: 'left' },
+    // Akshayanagar, off Bannerghatta Road: about 17 km south of the Outer Ring Road point.
+    map: { km: 17, bearing: 188, label: 'left' },
   },
   {
     id: 'lodha-haven',

@@ -1,7 +1,7 @@
 'use client';
 
 import Image, { getImageProps } from 'next/image';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, type CSSProperties } from 'react';
 import { PinIcon, PlusIcon } from '@/components/icons';
 import { Monument } from '@/components/Monument';
 import { useResidenceUI } from '@/components/ResidenceProvider';
@@ -47,7 +47,7 @@ export function Residences() {
           </h2>
           <Monument />
           <p className="residences__intro">
-            Lodha residences across Bengaluru, from Sarjapur Road in the south-east to the lake-facing towers of Begur in the south.
+            Lodha residences across Bengaluru, from Sarjapur Road in the south-east to the lakefront towers of Akshayanagar in the south.
           </p>
           {FILTERS.length > 2 && (
             <>
@@ -182,7 +182,8 @@ function Description({ id, text }: { id: string; text: string }) {
 // square and a landscape picture would be cropped hard; phones keep the first.
 function CardPhoto({ residence: r }: { residence: Residence }) {
   const common = { width: 1400, height: 933, sizes: '(min-width: 48rem) 42vw, 100vw' };
-  const style = r.photo.position ? { objectPosition: r.photo.position } : undefined;
+  // The crop points reach the image as custom properties, so the wide-screen photo can have its own.
+  const style = { '--pos': r.photo.position, '--pos-wide': r.desktopPhoto?.position } as CSSProperties;
   if (!r.desktopPhoto) return <Image {...common} src={r.photo.src} alt={r.photo.alt} style={style} />;
 
   const {

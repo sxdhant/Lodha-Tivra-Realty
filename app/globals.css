@@ -1215,6 +1215,7 @@ figure {
   width: 100%;
   aspect-ratio: 3 / 2;
   object-fit: cover;
+  object-position: var(--pos, 50% 50%);
   transition: transform 1.2s var(--ease-out);
 }
 
@@ -1533,6 +1534,28 @@ figure {
   font-size: 1.125rem;
 }
 
+/* Short list of what sets a project apart, in the sheet. */
+.highlights {
+  margin: 1rem 0 0;
+}
+
+.highlights > div {
+  padding: 1rem 0;
+  border-top: 1px solid var(--rule);
+}
+
+.highlights dt {
+  font-family: var(--font-display);
+  font-size: var(--step-1);
+}
+
+.highlights dd {
+  margin: 0.375rem 0 0;
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  color: var(--ink-soft);
+}
+
 /* The three figures run in one row, divided by upright hairlines, when the card is wide enough:
    full width from 40rem, and again from 64rem once the details column beside the photo has room. */
 @media (min-width: 40rem) and (max-width: 47.99rem), (min-width: 64rem) {
@@ -1583,6 +1606,7 @@ figure {
     inset: 0;
     height: 100%;
     aspect-ratio: auto;
+    object-position: var(--pos-wide, var(--pos, 50% 50%));
   }
 }
 

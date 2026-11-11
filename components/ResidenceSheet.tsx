@@ -151,7 +151,24 @@ function ResidenceDetail({
             </tbody>
           </table>
         )}
+        {r.configurationsNote && <p className="specs__note">{r.configurationsNote}</p>}
         {r.price.includes('*') && <p className="specs__note">{PRICE_NOTE}</p>}
+
+        {r.highlights && (
+          <section className="sheet__gallery" aria-labelledby="sheet-highlights-title">
+            <h3 className="sheet__gallery-title" id="sheet-highlights-title">
+              Highlights
+            </h3>
+            <dl className="highlights">
+              {r.highlights.map((h) => (
+                <div key={h.title}>
+                  <dt>{h.title}</dt>
+                  <dd>{h.text}</dd>
+                </div>
+              ))}
+            </dl>
+          </section>
+        )}
 
         {r.paymentPlan && (
           <section className="sheet__gallery sheet__plan" aria-labelledby="sheet-plan-title">
@@ -227,7 +244,7 @@ function ResidenceDetail({
               <li key={place.name}>
                 <span className="nearby__kind">{place.kind}</span>
                 <span className="nearby__name">{place.name}</span>
-                <span className="nearby__km">{place.km}&nbsp;km</span>
+                <span className="nearby__km">{place.km !== undefined ? `${place.km}\u00a0km` : place.time}</span>
               </li>
             ))}
           </ul>

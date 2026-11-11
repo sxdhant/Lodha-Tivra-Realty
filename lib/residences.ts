@@ -41,7 +41,7 @@ export type Residence = {
   gallery?: (Photo & { width: number; height: number })[];
   /** Shown in the sheet's Location section: where the map is centred, and what is close by. */
   location: { lat: number; lng: number; nearby: { kind: string; name: string; km: number }[] };
-  /** Straight-line distance and compass bearing from MG Road. */
+  /** Straight-line distance and compass bearing from the Outer Ring Road reference point (13.0278 N, 77.6325 E). */
   map: { km: number; bearing: number; label: 'left' | 'right' };
 };
 
@@ -129,8 +129,8 @@ export const residences: Residence[] = [
         { kind: 'Work', name: 'Wipro campus, Sarjapur Road', km: 10 },
       ],
     },
-    // Varthur–Sarjapur Road, Dommasandra: about 19 km east-south-east of MG Road.
-    map: { km: 19, bearing: 123, label: 'right' },
+    // Varthur–Sarjapur Road, Dommasandra: about 24 km south-east of the Outer Ring Road point.
+    map: { km: 24, bearing: 132, label: 'right' },
   },
   {
     id: 'lodha-azure',
@@ -176,8 +176,8 @@ export const residences: Residence[] = [
         { kind: 'Mall', name: 'Meenakshi Mall, Bannerghatta Road', km: 8 },
       ],
     },
-    // Begur, Bannerghatta Road: about 13 km south of MG Road.
-    map: { km: 13, bearing: 170, label: 'right' },
+    // Begur, Bannerghatta Road: about 17 km south of the Outer Ring Road point.
+    map: { km: 17, bearing: 184, label: 'left' },
   },
   {
     id: 'lodha-haven',
@@ -224,8 +224,8 @@ export const residences: Residence[] = [
         { kind: 'Work', name: 'Electronic City Phase 1', km: 5 },
       ],
     },
-    // Hosa Road, off Sarjapur Road: about 14 km south-east of MG Road.
-    map: { km: 14, bearing: 135, label: 'left' },
+    // Hosa Road, off Sarjapur Road: about 18 km south-south-east of the Outer Ring Road point.
+    map: { km: 18, bearing: 159, label: 'right' },
   },
 ];
 

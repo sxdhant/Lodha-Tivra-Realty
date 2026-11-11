@@ -5,11 +5,11 @@ import { BloomField } from '@/components/BloomField';
 import { useResidenceUI } from '@/components/ResidenceProvider';
 import { residences } from '@/lib/residences';
 
-// Schematic map: MG Road at the centre, distance compressed by a square root so the
+// Schematic map: the Outer Ring Road reference point at the centre, distance compressed by a square root so the
 // outer residences fit. Coordinates are rounded so server and client render the same values.
 const CENTRE = 300;
 const SCALE = 45;
-const RINGS_KM = [35, 15, 5];
+const RINGS_KM = [30, 20, 10];
 
 const round = (value: number) => Math.round(value * 10) / 10;
 const radius = (km: number) => SCALE * Math.sqrt(km);
@@ -37,8 +37,8 @@ export function WhereWeBuild() {
             Locations
           </h2>
           <p className="where__intro">
-            Lodha Haven is on Hosa Road, off Sarjapur Road, to the south-east of MG Road. Lodha Elanza is further out on
-            Sarjapur Road, and Lodha Azure is at Begur, on Bannerghatta Road to the south.
+            Distances are measured from the Outer Ring Road. Lodha Azure is at Begur, on Bannerghatta Road to the south,
+            Lodha Haven is on Hosa Road, off Sarjapur Road, and Lodha Elanza is further out on Sarjapur Road.
           </p>
         </div>
 
@@ -46,8 +46,8 @@ export function WhereWeBuild() {
           <svg className="map" viewBox="0 0 600 600" role="img" aria-labelledby="map-title map-desc">
             <title id="map-title">Schematic map of residences around Bengaluru</title>
             <desc id="map-desc">
-              Each residence is placed by its direction and distance from MG Road, with rings at 5, 15 and 35
-              kilometres. Distances are compressed toward the edge so the outer residences fit.
+              Each residence is placed by its direction and distance from the Outer Ring Road, with rings at 10, 20
+              and 30 kilometres. Distances are compressed toward the edge so the outer residences fit.
             </desc>
             <g className="map__rings">
               {RINGS_KM.map((km) => (
@@ -56,7 +56,7 @@ export function WhereWeBuild() {
             </g>
             <g className="map__ring-labels">
               {RINGS_KM.map((km) => (
-                <text key={km} x={CENTRE} y={round(CENTRE + radius(km) - 9.6)}>
+                <text key={km} x={CENTRE} y={round(CENTRE - radius(km) + 22)}>
                   {km} km
                 </text>
               ))}
@@ -70,7 +70,7 @@ export function WhereWeBuild() {
             <g className="map__centre">
               <path d="M293 300h14M300 293v14" />
               <text x="312" y="320">
-                MG Road
+                Outer Ring Road
               </text>
             </g>
             {pins.map(({ residence: r, x, y }) => {
@@ -87,6 +87,15 @@ export function WhereWeBuild() {
                   <circle className="map__dot" cx={x} cy={y} r="5" />
                   <text x={round(left ? x - 13.5 : x + 13.5)} y={round(y + 5)} textAnchor={left ? 'end' : undefined}>
                     {r.name}
+                  </text>
+                  <text
+                    className="map__km"
+                    x={round(left ? x - 13.5 : x + 13.5)}
+                    y={round(y + 5)}
+                    dy="1.3em"
+                    textAnchor={left ? 'end' : undefined}
+                  >
+                    {r.map.km}&nbsp;km
                   </text>
                 </g>
               );
@@ -115,7 +124,7 @@ export function WhereWeBuild() {
               </li>
             ))}
           </ul>
-          <p className="where__note">Straight-line distances from MG Road.</p>
+          <p className="where__note">Straight-line distances from the Outer Ring Road.</p>
         </div>
       </div>
     </section>

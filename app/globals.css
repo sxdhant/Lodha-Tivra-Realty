@@ -1177,9 +1177,10 @@ figure {
   position: relative;
   display: grid;
   overflow: hidden;
-  border: 1px solid var(--rule);
-  border-radius: 0.375rem;
+  border: 1px solid rgb(255 255 255 / 0.5);
+  border-radius: 0.75rem;
   background: var(--white);
+  box-shadow: 0 18px 40px -24px rgb(60 40 20 / 0.35);
   transition: border-color var(--dur-base) ease, box-shadow var(--dur-base) ease;
 }
 
@@ -1589,8 +1590,8 @@ figure {
    a tap on Read more would otherwise leave a phone's card lifted. */
 @media (hover: hover) {
   .residence:is(:hover, :has(.residence__open:focus-visible)) {
-    border-color: rgb(23 23 21 / 0.24);
-    box-shadow: 0 18px 40px -28px rgb(23 23 21 / 0.4);
+    border-color: rgb(255 255 255 / 0.8);
+    box-shadow: 0 24px 48px -24px rgb(60 40 20 / 0.5);
   }
 
   .residence:is(:hover, :has(.residence__open:focus-visible))::before {
@@ -1826,6 +1827,17 @@ figure {
   transition: fill var(--dur-quick) ease;
 }
 
+/* Distance under the project name, in the plain text face and the soft colour. */
+.map__pin .map__km {
+  font-family: var(--font-text);
+  font-size: 18px;
+  fill: var(--mist-soft);
+}
+
+.map__pin.is-active .map__km {
+  fill: var(--gold);
+}
+
 .map__dot {
   fill: var(--gold);
 }
@@ -1862,6 +1874,10 @@ figure {
 
   .map__pin text {
     font-size: 17px;
+  }
+
+  .map__pin .map__km {
+    font-size: 13px;
   }
 }
 

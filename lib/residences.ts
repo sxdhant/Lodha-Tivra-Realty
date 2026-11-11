@@ -57,8 +57,6 @@ export type Residence = {
   map: { km: number; bearing: number; label: 'left' | 'right' };
 };
 
-const unsplash = (id: string) => `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=2400&q=80`;
-
 const sqft = (value: string) => `${value} sq ft`;
 
 export const PRICE_NOTE =
@@ -260,8 +258,8 @@ export const residences: Residence[] = [
     type: '3, 3.5 & 4 BHK',
     size: sqft('1,656–3,429'),
     price: '₹2.40 Cr onwards*',
-    // The photos are stand-ins, not Lodha Haven. Replace them with renders from Lodha's partner kit.
-    caption: 'Representative image.',
+    // Renders from the partner's kit (public/gallery/lodha-haven).
+    caption: 'Artist’s impression.',
     tags: ['Forest-inspired landscape', '80% open space'],
     description: HAVEN_INTRO,
     enquire: true,
@@ -275,15 +273,30 @@ export const residences: Residence[] = [
       { label: 'Price', value: '₹2.40 Cr onwards*' },
     ],
     photo: {
-      src: unsplash('1564078516393-cf04bd966897'),
-      alt: 'A double-height living room at dusk with tall windows over the city',
-      position: '50% 60%',
+      src: '/gallery/lodha-haven/podium-pool.jpg',
+      alt: 'A pool deck at dusk below a curved tower whose terraces are draped in greenery',
+      // A wide picture in a squarer box: keep the tower's curve and the pool in view.
+      position: '30% center',
     },
     secondPhoto: {
-      src: unsplash('1596176530529-78163a4f7af2'),
-      alt: 'City lights at dusk seen from a high floor',
+      src: '/gallery/lodha-haven/treehouse.jpg',
+      alt: 'A treehouse reached by a rope bridge among old trees, with a couple strolling along a garden path',
     },
     paymentPlan: PAYMENT_PLAN,
+    // Renders from the partner's kit, enlarged 2x and sharpened (public/gallery/lodha-haven).
+    gallery: [
+      { src: '/gallery/lodha-haven/treehouse.jpg', width: 2186, height: 1274, alt: 'A treehouse reached by a rope bridge among old trees, with a couple strolling along a garden path' },
+      { src: '/gallery/lodha-haven/aerial-gardens.jpg', width: 2126, height: 1280, alt: 'An aerial view from a balcony over forest-like gardens, a pool and timber pavilions' },
+      { src: '/gallery/lodha-haven/podium-pool.jpg', width: 2190, height: 1262, alt: 'A pool deck at dusk below a curved tower whose terraces are draped in greenery' },
+      { src: '/gallery/lodha-haven/tower-lake.jpg', width: 1286, height: 792, alt: 'A twin-tower residence rising above a still lake at sunset' },
+      { src: '/gallery/lodha-haven/lounge.jpg', width: 1652, height: 1374, alt: 'A double-height lounge with a ring chandelier, a curved sofa and tall plants' },
+      { src: '/gallery/lodha-haven/restaurant.jpg', width: 1614, height: 1292, alt: 'A clubhouse restaurant with ring chandeliers, timber panelling and marble-topped tables' },
+      { src: '/gallery/lodha-haven/gym.jpg', width: 1604, height: 1184, alt: 'A gym with a green running track, mirrored columns and glass walls onto the trees' },
+      { src: '/gallery/lodha-haven/living-room.jpg', width: 2166, height: 1280, alt: 'A living and dining room with a wide window over the lake at sunset' },
+      { src: '/gallery/lodha-haven/bedroom-balcony.jpg', width: 2172, height: 1256, alt: 'A bedroom opening to a balcony with a swing seat above the lake' },
+      { src: '/gallery/lodha-haven/balcony-window.jpg', width: 1616, height: 1302, alt: 'An open balcony door framing green treetops, with a pouffe and potted plants' },
+      { src: '/gallery/lodha-haven/area-map.jpg', width: 2340, height: 1760, alt: 'An illustrated map of the area around Lodha Haven on Hosa Road, with nearby schools, hospitals, tech parks and Choodasandra Lake' },
+    ],
     // Placeholder: a point on Hosa Road and indicative distances.
     location: {
       lat: 12.874,

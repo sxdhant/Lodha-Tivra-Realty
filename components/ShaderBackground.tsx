@@ -64,9 +64,9 @@ void main() {
   vec2 uv = gl_FragCoord.xy / res;
   vec2 p = (gl_FragCoord.xy - 0.5 * res) / min(res.x, res.y);
 
-  // Cursor twirl: spin the space around the pointer, strongest at its centre (strength 0.65, radius 0.46)
+  // Cursor twirl: spin the space around the pointer, strongest at its centre (about 0.5 rad, radius 0.4)
   vec2 pt = (u_pointer.xy * res - 0.5 * res) / min(res.x, res.y);
-  float swirl = 0.65 * smoothstep(0.46, 0.0, length(p - pt)) * u_pointer.z * 4.0;
+  float swirl = 0.5 * smoothstep(0.4, 0.0, length(p - pt)) * u_pointer.z;
   vec2 d = p - pt;
   p = pt + vec2(cos(swirl) * d.x - sin(swirl) * d.y, sin(swirl) * d.x + cos(swirl) * d.y);
   uv = p * min(res.x, res.y) / res + 0.5;

@@ -1684,20 +1684,17 @@ figure {
 
 /* Locations */
 
-/* Locations sits on the page's tan waves, so it takes the dark-on-light colours. */
 .where {
-  --focus: var(--gold-deep);
-  --gold: var(--gold-deep);
-  --mist: var(--ink);
-  --mist-soft: var(--ink-soft);
-  --rule-dark: var(--rule);
+  --focus: var(--gold);
   position: relative;
   isolation: isolate;
   padding-block: var(--section);
+  background: var(--night);
   color: var(--mist);
 }
 
-/* Fine grain, like cut granite, on the dark footer. */
+/* Fine grain, like cut granite, on the dark sections. */
+.where::before,
 .site-footer::before {
   content: "";
   position: absolute;

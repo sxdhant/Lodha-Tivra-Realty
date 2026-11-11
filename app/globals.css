@@ -82,9 +82,14 @@ html {
   }
 }
 
+/* The page background is the fixed shader canvas; html keeps the ivory underneath it. */
+html {
+  background: var(--paper);
+}
+
 body {
   margin: 0;
-  background: var(--paper);
+  background: transparent;
   color: var(--ink);
   font-family: var(--font-text);
   font-size: var(--step-0);
@@ -3441,5 +3446,57 @@ video {
 @media (prefers-reduced-motion: reduce) {
   .splash__partner {
     animation: none;
+  }
+}
+
+/* Shader backdrop */
+
+.shader-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  /* Shown until (or instead of) the shader */
+  background: linear-gradient(180deg, #624b31, #9b7657 40%, #dfba96 75%, #f9f1e7);
+}
+
+/* No WebGL, or the shader failed to compile: drift the palette so the page still has life */
+.shader-bg[data-state="no-webgl"],
+.shader-bg[data-state="compile-failed"],
+.shader-bg[data-state="link-failed"] {
+  background:
+    radial-gradient(60% 50% at 20% 30%, rgb(155 118 87 / 0.85), transparent 70%),
+    radial-gradient(55% 45% at 80% 60%, rgb(223 186 150 / 0.9), transparent 70%),
+    radial-gradient(70% 55% at 50% 100%, rgb(98 75 49 / 0.7), transparent 70%),
+    linear-gradient(180deg, #9b7657, #dfba96 55%, #f9f1e7);
+  background-size: 140% 140%, 140% 140%, 140% 140%, 100% 100%;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .shader-bg[data-state="no-webgl"],
+  .shader-bg[data-state="compile-failed"],
+  .shader-bg[data-state="link-failed"] {
+    animation: shader-fallback-drift 18s ease-in-out infinite alternate;
+  }
+}
+@keyframes shader-fallback-drift {
+  from { background-position: 0% 0%, 100% 100%, 50% 100%, 0 0; }
+  to   { background-position: 100% 60%, 0% 20%, 20% 60%, 0 0; }
+}
+
+/* Ivory veil that keeps body text readable over the darkest part of the waves */
+.shader-veil {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: rgb(245 241 233 / 0.3); /* raise toward 0.5 if text contrast is poor */
+}
+
+@media print {
+  .shader-bg,
+  .shader-veil {
+    display: none;
   }
 }

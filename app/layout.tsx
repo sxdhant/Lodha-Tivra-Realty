@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from 'next';
 import { Jost, Newsreader } from 'next/font/google';
+import { ShaderBackground } from '@/components/ShaderBackground';
 import { Splash } from '@/components/Splash';
 import { site } from '@/lib/site';
 import './globals.css';
@@ -52,6 +53,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }} />
       </head>
       <body>
+        <ShaderBackground />
         <Splash />
         {children}
       </body>

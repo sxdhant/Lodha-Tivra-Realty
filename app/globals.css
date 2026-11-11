@@ -2915,6 +2915,9 @@ figure {
   border: 0;
   background: rgb(12 12 11 / 0.95);
   color: var(--white);
+  /* Swipes on the photo must not scroll the sheet behind it, or the page shifts when it closes. */
+  overscroll-behavior: contain;
+  touch-action: none;
 }
 
 .viewer[open] {

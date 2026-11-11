@@ -28,7 +28,10 @@ export function ResidenceSheet() {
       ref={sheetRef}
       className="sheet"
       aria-labelledby="sheet-title"
-      onClose={handleSheetClosed}
+      onClose={(event) => {
+        // Only the sheet's own close counts, not that of the photo viewer inside it.
+        if (event.target === event.currentTarget) handleSheetClosed();
+      }}
       onClick={(event) => {
         // A click on the dialog element itself, outside the content, is a click on the backdrop.
         if (event.target === event.currentTarget) event.currentTarget.close();

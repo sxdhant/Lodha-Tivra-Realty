@@ -18,10 +18,29 @@ export function GalleryViewer({ name, photos, strip }: { name: string; photos: G
   const count = photos.length;
   const photo = index === null ? null : photos[index];
 
+  // Where the sheet and the strip were scrolled to when a photo opened, so closing it puts them back exactly.
+  const scrollWas = useRef({ sheetTop: 0, stripLeft: 0 });
+  const stripRef = useRef<HTMLUListElement>(null);
+  const sheetOf = (dialog: HTMLDialogElement) => dialog.closest<HTMLElement>('.sheet');
+
   useEffect(() => {
     const dialog = dialogRef.current;
-    if (index !== null && dialog && !dialog.open) dialog.showModal();
+    if (index !== null && dialog && !dialog.open) {
+      scrollWas.current = { sheetTop: sheetOf(dialog)?.scrollTop ?? 0, stripLeft: stripRef.current?.scrollLeft ?? 0 };
+      dialog.showModal();
+    }
   }, [index]);
+
+  const restoreScroll = () => {
+    const dialog = dialogRef.current;
+    const sheet = dialog && sheetOf(dialog);
+    const put = () => {
+      if (sheet) sheet.scrollTop = scrollWas.current.sheetTop;
+      if (stripRef.current) stripRef.current.scrollLeft = scrollWas.current.stripLeft;
+    };
+    put();
+    requestAnimationFrame(put);
+  };
 
   const step = (by: number) => setIndex((i) => (i === null ? i : (i + by + count) % count));
 
@@ -41,7 +60,7 @@ export function GalleryViewer({ name, photos, strip }: { name: string; photos: G
   return (
     <>
       {strip ? (
-        <ul className="sheet__gallery-grid" tabIndex={0} aria-label={`${name} photos, scroll sideways`}>
+        <ul ref={stripRef} className="sheet__gallery-grid" tabIndex={0} aria-label={`${name} photos, scroll sideways`}>
           {photos.map((p, i) => (
             <li key={p.src}>{open(i)}</li>
           ))}
@@ -54,7 +73,12 @@ export function GalleryViewer({ name, photos, strip }: { name: string; photos: G
         ref={dialogRef}
         className="viewer"
         aria-label={`${name} photo${photo && count > 1 ? `, ${index! + 1} of ${count}` : ''}`}
-        onClose={() => setIndex(null)}
+        onClose={(event) => {
+          // This dialog sits inside the sheet's, and React would pass its close on to the sheet.
+          event.stopPropagation();
+          setIndex(null);
+          restoreScroll();
+        }}
         onClick={(event) => {
           // A click on the dialog itself, outside the photo and the buttons, is a click on the backdrop.
           if (event.target === event.currentTarget) event.currentTarget.close();

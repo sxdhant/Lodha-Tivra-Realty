@@ -5,7 +5,7 @@ export const site = {
   // Replace with your firm's registered name as it should appear in the copyright line.
   legalName: 'Lodha Preferred Partner',
   description:
-    'Private viewings and plain advice on Lodha’s luxury residences in Bengaluru, from a Lodha Preferred Partner.',
+    'Private viewings and plain advice on Lodha’s luxury residences in Bengaluru, from a Lodha Preferred Partner. Explore Lodha Elanza, Azure and Haven.',
   logo: {
     original: '/brand/lodha-preferred-partner.png',
     reversed: '/brand/lodha-preferred-partner-reversed.png',
@@ -39,3 +39,11 @@ export const site = {
 
 // A WhatsApp chat with the firm, opened with the given message already typed.
 export const whatsappHref = (message: string) => `https://wa.me/918709808869?text=${encodeURIComponent(message)}`;
+
+// The public address of the site, used for canonical links, the sitemap and share previews. Set
+// NEXT_PUBLIC_SITE_URL to the real domain (for example https://homes.example.com) once it is chosen;
+// until then Vercel's production address is used, and localhost when running locally.
+export const siteUrl = (
+  process.env.NEXT_PUBLIC_SITE_URL ??
+  (process.env.VERCEL_PROJECT_PRODUCTION_URL ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}` : 'http://localhost:3000')
+).replace(/\/$/, '');

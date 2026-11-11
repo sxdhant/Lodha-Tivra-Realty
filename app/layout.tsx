@@ -2,7 +2,8 @@ import type { Metadata, Viewport } from 'next';
 import { Jost, Newsreader } from 'next/font/google';
 import { ShaderBackground } from '@/components/shader-background';
 import { Splash } from '@/components/Splash';
-import { site } from '@/lib/site';
+import { StructuredData } from '@/components/StructuredData';
+import { site, siteUrl } from '@/lib/site';
 import './globals.css';
 
 const newsreader = Newsreader({
@@ -19,18 +20,25 @@ const jost = Jost({
   display: 'swap',
 });
 
-const title = `${site.name} | Lodha luxury residences in Bengaluru`;
+// Kept under about 60 characters so search results do not cut it off.
+const title = `${site.name} | Luxury Homes in Bengaluru`;
+const shareImage = { url: '/og.jpg', width: 1200, height: 630, alt: 'A resort-style pool deck at dusk beside a Lodha residence' };
 
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   title,
   description: site.description,
+  alternates: { canonical: '/' },
   openGraph: {
     title,
     description: site.description,
     type: 'website',
     locale: 'en_IN',
     siteName: site.name,
+    url: '/',
+    images: [shareImage],
   },
+  twitter: { card: 'summary_large_image', title, description: site.description, images: [shareImage.url] },
 };
 
 export const viewport: Viewport = {
@@ -53,6 +61,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }} />
       </head>
       <body>
+        <StructuredData />
         <ShaderBackground />
         <Splash />
         {children}

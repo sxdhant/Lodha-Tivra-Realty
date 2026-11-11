@@ -53,7 +53,7 @@ export type Residence = {
   gallery?: (Photo & { width: number; height: number })[];
   /** Shown in the sheet's Location section: where the map is centred, and what is close by. */
   location: { lat: number; lng: number; nearby: { kind: string; name: string; km?: number; time?: string }[] };
-  /** Straight-line distance and compass bearing from the Outer Ring Road reference point (13.0278 N, 77.6325 E). */
+  /** Distance in km from the Outer Ring Road, as the partner gave it, and the compass bearing from the reference point (13.0278 N, 77.6325 E). */
   map: { km: number; bearing: number; label: 'left' | 'right' };
 };
 
@@ -160,8 +160,8 @@ export const residences: Residence[] = [
         { kind: 'Work', name: 'Wipro campus, Sarjapur Road', km: 10 },
       ],
     },
-    // Varthur–Sarjapur Road, Dommasandra: about 24 km south-east of the Outer Ring Road point.
-    map: { km: 24, bearing: 132, label: 'right' },
+    // Varthur–Sarjapur Road, Dommasandra: 13 km from the Outer Ring Road, to the south-east.
+    map: { km: 13, bearing: 132, label: 'right' },
   },
   {
     id: 'lodha-azure',
@@ -245,8 +245,8 @@ export const residences: Residence[] = [
         { kind: 'Mall', name: 'Royal Meenakshi Mall, Bannerghatta Road', km: 8 },
       ],
     },
-    // Akshayanagar, off Bannerghatta Road: about 17 km south of the Outer Ring Road point.
-    map: { km: 17, bearing: 188, label: 'left' },
+    // Akshayanagar, off Bannerghatta Road: 7 km from the Outer Ring Road, to the south.
+    map: { km: 7, bearing: 188, label: 'left' },
   },
   {
     id: 'lodha-haven',
@@ -336,8 +336,8 @@ export const residences: Residence[] = [
         { kind: 'Work', name: 'Electronic City Phase 1', km: 5 },
       ],
     },
-    // Hosa Road, off Sarjapur Road: about 18 km south-south-east of the Outer Ring Road point.
-    map: { km: 18, bearing: 159, label: 'right' },
+    // Hosa Road, off Sarjapur Road: 5 km from the Outer Ring Road, to the south-south-east.
+    map: { km: 5, bearing: 159, label: 'left' },
   },
 ];
 

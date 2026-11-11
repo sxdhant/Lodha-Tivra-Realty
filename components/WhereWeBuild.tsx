@@ -8,8 +8,8 @@ import { residences } from '@/lib/residences';
 // Schematic map: the Outer Ring Road reference point at the centre, distance compressed by a square root so the
 // outer residences fit. Coordinates are rounded so server and client render the same values.
 const CENTRE = 300;
-const SCALE = 45;
-const RINGS_KM = [30, 20, 10];
+const SCALE = 60;
+const RINGS_KM = [15, 10, 5];
 
 const round = (value: number) => Math.round(value * 10) / 10;
 const radius = (km: number) => SCALE * Math.sqrt(km);
@@ -46,8 +46,8 @@ export function WhereWeBuild() {
           <svg className="map" viewBox="0 0 600 600" role="img" aria-labelledby="map-title map-desc">
             <title id="map-title">Schematic map of residences around Bengaluru</title>
             <desc id="map-desc">
-              Each residence is placed by its direction and distance from the Outer Ring Road, with rings at 10, 20
-              and 30 kilometres. Distances are compressed toward the edge so the outer residences fit.
+              Each residence is placed by its direction and distance from the Outer Ring Road, with rings at 5, 10
+              and 15 kilometres. Distances are compressed toward the edge so the outer residences fit.
             </desc>
             <g className="map__rings">
               {RINGS_KM.map((km) => (
@@ -124,7 +124,7 @@ export function WhereWeBuild() {
               </li>
             ))}
           </ul>
-          <p className="where__note">Straight-line distances from the Outer Ring Road.</p>
+          <p className="where__note">Approximate distances from the Outer Ring Road.</p>
         </div>
       </div>
     </section>

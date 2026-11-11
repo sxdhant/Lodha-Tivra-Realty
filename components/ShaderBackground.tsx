@@ -13,6 +13,7 @@ precision mediump float;
 
 uniform vec3 u_colors[4];
 uniform vec3 u_scene; // resolution.xy, time
+uniform vec3 u_pointer; // x, y (0..1, y up), presence (0..1)
 
 float hash21(vec2 p) {
 #ifndef GL_FRAGMENT_PRECISION_HIGH
@@ -62,6 +63,13 @@ void main() {
   float t = u_scene.z;
   vec2 uv = gl_FragCoord.xy / res;
   vec2 p = (gl_FragCoord.xy - 0.5 * res) / min(res.x, res.y);
+
+  // Cursor twirl: spin the space around the pointer, strongest at its centre (strength 0.65, radius 0.46)
+  vec2 pt = (u_pointer.xy * res - 0.5 * res) / min(res.x, res.y);
+  float swirl = 0.65 * smoothstep(0.46, 0.0, length(p - pt)) * u_pointer.z * 4.0;
+  vec2 d = p - pt;
+  p = pt + vec2(cos(swirl) * d.x - sin(swirl) * d.y, sin(swirl) * d.x + cos(swirl) * d.y);
+  uv = p * min(res.x, res.y) / res + 0.5;
 
   p *= 2.0;                                              // scale
   p += 0.12 * vec2(sin(t * 0.31), cos(t * 0.23));        // slow drift
@@ -137,6 +145,9 @@ export function ShaderBackground() {
 
     gl.uniform3fv(gl.getUniformLocation(prog, 'u_colors'), COLORS);
     const uScene = gl.getUniformLocation(prog, 'u_scene');
+    const uPointer = gl.getUniformLocation(prog, 'u_pointer');
+    const ptr = { x: 0.5, y: 0.5, on: 0 };
+    const target = { x: 0.5, y: 0.5, on: 0 };
 
     const MAX_PIXELS = 2.5e6;
     let w = 0;
@@ -153,6 +164,7 @@ export function ShaderBackground() {
         gl.viewport(0, 0, w, h);
       }
       gl.uniform3f(uScene, w, h, seconds * -0.73);
+      gl.uniform3f(uPointer, ptr.x, ptr.y, ptr.on);
       gl.drawArrays(gl.TRIANGLES, 0, 3);
     };
 
@@ -165,7 +177,18 @@ export function ShaderBackground() {
       raf = requestAnimationFrame(loop);
       if (now - last < FRAME_MS - 2) return;
       last = now;
+      ptr.x += (target.x - ptr.x) * 0.2;
+      ptr.y += (target.y - ptr.y) * 0.2;
+      ptr.on += (target.on - ptr.on) * 0.12;
       draw((now - start) / 1000);
+    };
+    const move = (e: PointerEvent) => {
+      target.x = e.clientX / window.innerWidth;
+      target.y = 1 - e.clientY / window.innerHeight;
+      target.on = 1;
+    };
+    const leave = () => {
+      target.on = 0;
     };
     const run = () => {
       cancelAnimationFrame(raf);
@@ -181,6 +204,9 @@ export function ShaderBackground() {
     ro.observe(canvas);
     document.addEventListener('visibilitychange', run);
     calm.addEventListener('change', run);
+    // The twirl follows the pointer; with reduced motion the single still frame never reads it.
+    window.addEventListener('pointermove', move);
+    document.addEventListener('pointerleave', leave);
     // Wait a moment so the page can load first; the CSS gradient shows meanwhile
     const timer = window.setTimeout(run, 600);
 
@@ -190,6 +216,8 @@ export function ShaderBackground() {
       ro.disconnect();
       document.removeEventListener('visibilitychange', run);
       calm.removeEventListener('change', run);
+      window.removeEventListener('pointermove', move);
+      document.removeEventListener('pointerleave', leave);
       gl.deleteProgram(prog);
       gl.deleteShader(vs);
       gl.deleteShader(fs);

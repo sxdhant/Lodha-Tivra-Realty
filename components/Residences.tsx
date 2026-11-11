@@ -1,11 +1,11 @@
 'use client';
 
-import Image from 'next/image';
+import Image, { getImageProps } from 'next/image';
 import { useEffect, useRef, useState } from 'react';
 import { PinIcon, PlusIcon } from '@/components/icons';
 import { Monument } from '@/components/Monument';
 import { useResidenceUI } from '@/components/ResidenceProvider';
-import { PRICE_NOTE, residences, type ResidenceStatus } from '@/lib/residences';
+import { PRICE_NOTE, residences, type Residence, type ResidenceStatus } from '@/lib/residences';
 
 type Filter = 'all' | ResidenceStatus;
 
@@ -75,37 +75,8 @@ export function Residences() {
           {visible.map((r) => (
             <li key={r.id} id={r.id} className="residence">
               <figure className="residence__media">
-                <Image
-                  src={r.photo.src}
-                  alt={r.photo.alt}
-                  width={1400}
-                  height={933}
-                  sizes="(min-width: 48rem) 42vw, 100vw"
-                  style={r.photo.position ? { objectPosition: r.photo.position } : undefined}
-                />
-                {r.paymentPlan && (
-                  <p className="residence__badge">
-                    <span className="residence__badge-mark" aria-hidden="true">
-                      20×5
-                    </span>
-                    <span className="visually-hidden">20×5 </span>
-                    Payment plan available
-                  </p>
-                )}
-                {r.paymentPlan && (
-                  <div className="residence__offer">
-                    <p className="residence__offer-lead">Pay just</p>
-                    <p className="residence__offer-figure">
-                      20%<span> now</span>
-                    </p>
-                    <p className="residence__offer-sub">and get your dream home</p>
-                    <ul className="residence__offer-terms">
-                      <li>No EMI</li>
-                      <li>No Pre-EMI</li>
-                      <li>No other charges</li>
-                    </ul>
-                  </div>
-                )}
+                <CardPhoto residence={r} />
+                {r.tag && <p className="residence__tag">{r.tag}</p>}
               </figure>
               <div className="residence__summary">
                 <div className="residence__top">
@@ -204,5 +175,25 @@ function Description({ id, text }: { id: string; text: string }) {
         </button>
       )}
     </div>
+  );
+}
+
+// The card's photo. A residence can give a second photo for wide screens, where the photo box is close to
+// square and a landscape picture would be cropped hard; phones keep the first.
+function CardPhoto({ residence: r }: { residence: Residence }) {
+  const common = { width: 1400, height: 933, sizes: '(min-width: 48rem) 42vw, 100vw' };
+  const style = r.photo.position ? { objectPosition: r.photo.position } : undefined;
+  if (!r.desktopPhoto) return <Image {...common} src={r.photo.src} alt={r.photo.alt} style={style} />;
+
+  const {
+    props: { srcSet: wide },
+  } = getImageProps({ ...common, src: r.desktopPhoto.src, alt: r.desktopPhoto.alt });
+  const { props } = getImageProps({ ...common, src: r.photo.src, alt: r.photo.alt });
+  return (
+    <picture>
+      <source media="(min-width: 48rem)" srcSet={wide} sizes={common.sizes} />
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img {...props} style={style} />
+    </picture>
   );
 }

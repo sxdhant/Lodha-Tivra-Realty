@@ -1205,6 +1205,11 @@ figure {
   background: var(--stone);
 }
 
+/* The card's photo may be a <picture>; it adds no box of its own. */
+.residence__media picture {
+  display: contents;
+}
+
 .residence__media img {
   display: block;
   width: 100%;
@@ -1213,171 +1218,25 @@ figure {
   transition: transform 1.2s var(--ease-out);
 }
 
-/* Offer tag over the top-left of the photo: an ivory label with a gold edge, readable on any photo. */
-.residence__badge {
+/* Offer tag over the top-left of the photo, inset like the caption: a champagne label, readable on any photo. */
+.residence__tag {
   position: absolute;
-  top: 0.5rem;
-  left: 0;
+  top: 0.75rem;
+  left: 0.75rem;
   z-index: 1;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.375rem;
-  max-width: calc(100% - 1rem);
+  max-width: calc(100% - 1.5rem);
   margin: 0;
-  padding: 0.1875rem 0.5rem 0.1875rem 0.4375rem;
-  border-radius: 0 0.1875rem 0.1875rem 0;
-  border-left: 2px solid #c9a24d;
-  background: rgb(250 247 240 / 0.96);
-  box-shadow: 0 0.25rem 0.625rem rgb(23 23 21 / 0.25), 0 0 0 rgb(226 190 110 / 0);
-  overflow: hidden;
-  isolation: isolate;
-  animation: tag-in 700ms var(--ease-out) both, tag-glow 1s ease-in-out 0.7s infinite;
-  font-size: 0.5rem;
+  padding: 0.3125rem 0.75rem;
+  border: 1px solid #e6c26d;
+  border-radius: 999px;
+  background: linear-gradient(160deg, #f6e4b0, #d9b96a 55%, #b8934a);
+  box-shadow: 0 0.25rem 0.75rem rgb(23 23 21 / 0.3);
+  font-size: 0.6875rem;
   font-weight: 600;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.08em;
   line-height: 1.2;
   text-transform: uppercase;
-  color: var(--ink);
-}
-
-/* a bright streak that sweeps across now and then */
-.residence__badge::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  z-index: -1;
-  width: 45%;
-  background: linear-gradient(100deg, transparent 0%, rgb(255 214 120 / 0.85) 50%, transparent 100%);
-  transform: translateX(-160%) skewX(-18deg);
-  animation: tag-sheen 1s ease-in-out 0.7s infinite;
-}
-
-@keyframes tag-in {
-  from {
-    opacity: 0;
-    transform: translateX(-100%);
-  }
-}
-
-@keyframes tag-glow {
-  50% {
-    box-shadow: 0 0.25rem 0.625rem rgb(23 23 21 / 0.25), 0 0 0.875rem rgb(226 190 110 / 0.95);
-  }
-}
-
-@keyframes tag-sheen {
-  0%,
-  30% {
-    transform: translateX(-160%) skewX(-18deg);
-  }
-  100% {
-    transform: translateX(420%) skewX(-18deg);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .residence__badge,
-  .residence__badge::after {
-    animation: none;
-  }
-}
-
-.residence__badge-mark {
-  flex: none;
-  padding-right: 0.375rem;
-  border-right: 1px solid var(--rule);
-  font-family: var(--font-display);
-  font-size: 0.8125rem;
-  font-weight: 600;
-  letter-spacing: 0;
-  line-height: 1;
-  text-transform: none;
-  color: var(--gold-deep);
-}
-
-/* The "pay just 20% now" offer, bottom right of the photo. */
-.residence__offer {
-  position: absolute;
-  right: 0.75rem;
-  bottom: 0.75rem;
-  z-index: 1;
-  isolation: isolate;
-  max-width: 58%;
-  text-align: right;
-  color: var(--white);
-  text-shadow: 0 1px 6px rgb(0 0 0 / 0.45);
-}
-
-/* a soft shade so the gold reads on any photo */
-.residence__offer::before {
-  content: "";
-  position: absolute;
-  inset: -2.5rem -1rem -1rem -3rem;
-  z-index: -1;
-  background: radial-gradient(ellipse at 80% 85%, rgb(23 23 21 / 0.62), transparent 70%);
-}
-
-.residence__offer p {
-  margin: 0;
-}
-
-.residence__offer-lead {
-  font-size: 0.6875rem;
-  font-weight: 500;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-}
-
-.residence__offer-figure {
-  font-family: var(--font-display);
-  font-size: clamp(2.5rem, 7vw, 3.75rem);
-  font-weight: 500;
-  line-height: 0.95;
-  letter-spacing: -0.02em;
-  background: linear-gradient(180deg, #fff1c6 0%, #e6c26d 45%, #b8893a 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  text-shadow: none;
-  filter: drop-shadow(0 2px 6px rgb(0 0 0 / 0.4));
-}
-
-.residence__offer-figure span {
-  font-family: var(--font-body, inherit);
-  font-size: 0.75rem;
-  font-weight: 600;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-}
-
-.residence__offer-sub {
-  margin-top: 0.25rem;
-  font-family: var(--font-display);
-  font-size: 0.875rem;
-  font-style: italic;
-}
-
-.residence__offer-terms {
-  display: inline-flex;
-  margin: 0.5rem 0 0;
-  padding: 0.25rem 0.5rem;
-  list-style: none;
-  background: linear-gradient(180deg, #e9c978, #bf9440);
-  box-shadow: 0 0.25rem 0.75rem rgb(23 23 21 / 0.3), inset 0 1px 0 rgb(255 255 255 / 0.55);
-  font-size: 0.5625rem;
-  font-weight: 600;
-  letter-spacing: 0.03em;
-  white-space: nowrap;
   color: #2a2113;
-  text-shadow: none;
-}
-
-.residence__offer-terms li + li::before {
-  content: "|";
-  margin-inline: 0.375rem;
-  opacity: 0.6;
 }
 
 /* Says whether the photo is a render or a photograph. */
@@ -1628,6 +1487,50 @@ figure {
   margin-top: 1rem;
   font-size: 0.75rem;
   color: var(--ink-soft);
+}
+
+/* Home types with size and price, under the specifications. */
+.configs {
+  width: 100%;
+  margin-top: 1.5rem;
+  border-collapse: collapse;
+  font-size: 0.9375rem;
+  line-height: 1.45;
+}
+
+.configs__caption {
+  padding-bottom: 0.75rem;
+  text-align: left;
+  font-family: var(--font-display);
+  font-size: var(--step-1);
+}
+
+.configs th,
+.configs td {
+  padding: 0.75rem 0.75rem 0.75rem 0;
+  border-top: 1px solid var(--rule);
+  text-align: left;
+  font-weight: 400;
+}
+
+.configs thead th {
+  font-size: 0.8125rem;
+  color: var(--ink-soft);
+}
+
+.configs tbody th {
+  font-weight: 500;
+}
+
+.configs td:last-child,
+.configs th:last-child {
+  padding-right: 0;
+  text-align: right;
+}
+
+.configs tbody td:last-child {
+  font-family: var(--font-display);
+  font-size: 1.125rem;
 }
 
 /* The three figures run in one row, divided by upright hairlines, when the card is wide enough:

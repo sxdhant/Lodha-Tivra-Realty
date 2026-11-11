@@ -27,13 +27,19 @@ export type Residence = {
   price: string;
   /** Shown over the card photo: whether it is a render or a photograph. */
   caption: string;
+  /** A short offer tag shown over the top-right of the card photo. */
+  tag?: string;
   description: string;
   /** Shown in the sheet in place of, or beside, the viewing request. */
   note?: { text: string; callOffice?: boolean };
   /** Whether the residence can be chosen in the viewing form. */
   enquire: boolean;
   specs: { label: string; value: string; wide?: boolean }[];
+  /** Shown in the sheet as a table under the specifications: each home type with its size and starting price. */
+  configurations?: { type: string; size: string; price: string }[];
   photo: Photo;
+  /** Shown on the project card instead of photo from 48rem, where the card's photo box is close to square. */
+  desktopPhoto?: Photo;
   secondPhoto: Photo;
   /** Shown in the sheet between the specifications and the gallery. */
   paymentPlan?: { title: string; intro: string; schedule: { year: string; share: string }[] };
@@ -52,11 +58,11 @@ const sqft = (value: string) => `${value} sq ft`;
 export const PRICE_NOTE =
   '*Starting price for the smallest home, before stamp duty, registration, GST and other charges. Prices can change without notice.';
 
-// Lodha Elanza: the copy, configurations, unit sizes, price and site are the partner's (October
-// 2026). The RERA number, possession and address are from Lodha's project page,
+// Lodha Elanza: the configurations, unit sizes, prices and site details are from the developer's
+// WhatsApp message (October 2026), reworded here. The RERA number, possession and address are from Lodha's project page,
 // lodhagroup.com/projects/residential-property-in-bangalore/lodha-elanza-sarjapur-road.
 const ELANZA_INTRO =
-  'Discover Lodha Elanza, an exceptional 19-acre residential enclave where 80% open spaces create a rare sense of openness amidst Bengaluru’s vibrant urban landscape. Surrounded by greenery and designed for elevated living, it offers a harmonious blend of serenity, space, and refined elegance. A private sanctuary for those who appreciate the finer things in life, where nature, comfort, and community come together effortlessly.';
+  'Lodha Elanza is a 19-acre, low-density address on Sarjapur Road, where open space covers most of the land and the towers rise to G+34 floors. Design, craftsmanship and Lodha’s hospitality-led service shape daily life here, from the landscaped grounds to the homes themselves. Choose a 3 BHK Smart, a 3 BHK Luxe or a 3.5 BHK, with an early-bird advantage available on all three.';
 
 // Lodha Azure (Tower F): the partner's copy, configurations, unit sizes, price, area, units and
 // possession (October 2026).
@@ -86,35 +92,55 @@ export const residences: Residence[] = [
     statusLabel: 'Available',
     type: '3 & 3.5 BHK',
     size: sqft('1,500–2,300'),
-    price: '₹2.01 Cr onwards*',
-    // The photos are stand-ins, not Lodha Elanza. Replace them with renders from Lodha's partner kit.
-    caption: 'Representative image.',
+    price: '₹2 Cr onwards*',
+    // Renders from the partner's kit (public/gallery/lodha-elanza).
+    caption: 'Artist’s impression.',
+    tag: 'Early-bird advantage available',
     description: ELANZA_INTRO,
     enquire: true,
     specs: [
       { label: 'Type', value: '3 & 3.5 BHK' },
       { label: 'Unit size', value: sqft('1,500–2,300') },
       { label: 'Total area', value: '19 acres, 80% open space' },
+      { label: 'Towers', value: 'G+34 floors, low density' },
       { label: 'Total units', value: '698' },
       { label: 'Possession', value: 'By 2031' },
-      { label: 'Price', value: '₹2.01 Cr onwards*' },
+      { label: 'Price', value: '₹2 Cr onwards*' },
       { label: 'Karnataka RERA', value: 'PRM/KA/RERA/1251/308/PR/191225/008353', wide: true },
     ],
+    configurations: [
+      { type: '3 BHK Smart', size: sqft('1,500'), price: '₹2 Cr' },
+      { type: '3 BHK Luxe', size: sqft('1,900'), price: '₹2.50 Cr' },
+      { type: '3.5 BHK', size: sqft('2,300'), price: '₹3.10 Cr' },
+    ],
     photo: {
-      src: unsplash('1600607688969-a5bfcd646154'),
-      alt: 'A modern house with timber cladding and a lawn beneath a broad old tree',
+      src: '/gallery/lodha-elanza/terrace.jpg',
+      alt: 'A terrace dining table beside a brass balustrade, facing the lake at sunset',
+    },
+    desktopPhoto: {
+      src: '/gallery/lodha-elanza/terrace-lounge.jpg',
+      alt: 'A covered terrace lounge with a chandelier, looking out over the lake',
     },
     secondPhoto: {
-      src: unsplash('1600607687939-ce8a6c25118c'),
-      alt: 'A living room with a full-height timber wall and pale stone floor',
+      src: '/gallery/lodha-elanza/lake-pool-deck.jpg',
+      alt: 'A pool deck and cafe tables beside the lake at sunset, with a residential tower behind',
     },
     paymentPlan: PAYMENT_PLAN,
     // Renders from the partner's kit, enlarged 2x and sharpened (public/gallery/lodha-elanza).
     gallery: [
-      { src: '/gallery/lodha-elanza/entrance.jpg', width: 2504, height: 1208, alt: 'The residential entrance lobby, glazed and lit, between planted beds' },
       { src: '/gallery/lodha-elanza/gardens.jpg', width: 1688, height: 1028, alt: 'Landscaped gardens with a daybed under a mature tree at sunset' },
+      { src: '/gallery/lodha-elanza/aerial-lake.jpg', width: 1688, height: 1322, alt: 'An aerial view of the lake and wooded shoreline beside the site' },
+      { src: '/gallery/lodha-elanza/pool-dusk.jpg', width: 1988, height: 1320, alt: 'The resort-style pool deck at dusk, with a clubhouse draped in greenery and shaded daybeds' },
+      { src: '/gallery/lodha-elanza/lake-pool-deck.jpg', width: 1724, height: 996, alt: 'A pool deck and cafe tables beside the lake at sunset, with a residential tower behind' },
+      { src: '/gallery/lodha-elanza/restaurant.jpg', width: 2064, height: 1376, alt: 'A clubhouse restaurant with a curved bar, brass chandelier and glass walls onto the trees' },
+      { src: '/gallery/lodha-elanza/entrance.jpg', width: 2504, height: 1208, alt: 'The residential entrance lobby, glazed and lit, between planted beds' },
+      { src: '/gallery/lodha-elanza/tower-facade.jpg', width: 1844, height: 776, alt: 'The tower facade with curved balconies and a landscaped podium lounge below' },
+      { src: '/gallery/lodha-elanza/terrace-lounge.jpg', width: 1386, height: 1340, alt: 'A covered terrace lounge with a chandelier, looking out over the lake' },
       { src: '/gallery/lodha-elanza/living-room.jpg', width: 1896, height: 1010, alt: 'A living and dining room opening to a balcony over the lake at sunset' },
+      { src: '/gallery/lodha-elanza/dining-room.jpg', width: 1124, height: 1370, alt: 'A dining room with a marble feature wall and tasselled pendant lights' },
+      { src: '/gallery/lodha-elanza/bedroom.jpg', width: 1982, height: 1338, alt: 'A bedroom with a slatted arched headboard and a balcony facing the lake' },
       { src: '/gallery/lodha-elanza/terrace.jpg', width: 2468, height: 1232, alt: 'A terrace dining table beside a brass balustrade, facing the lake at sunset' },
+      { src: '/gallery/lodha-elanza/location-map.jpg', width: 2220, height: 1388, alt: 'An illustrated map of the area around Lodha Elanza, showing Outer Ring Road, Sarjapur Road, nearby schools, hospitals and SWIFT City' },
     ],
     // Placeholder: a point on Sarjapur Road and indicative distances. Replace with the project's
     // surveyed pin and drive distances.

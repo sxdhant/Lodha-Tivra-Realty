@@ -130,6 +130,27 @@ function ResidenceDetail({
             </div>
           ))}
         </dl>
+        {r.configurations && (
+          <table className="configs">
+            <caption className="configs__caption">Homes and prices</caption>
+            <thead>
+              <tr>
+                <th scope="col">Property type</th>
+                <th scope="col">Unit size</th>
+                <th scope="col">Price</th>
+              </tr>
+            </thead>
+            <tbody>
+              {r.configurations.map((c) => (
+                <tr key={c.type}>
+                  <th scope="row">{c.type}</th>
+                  <td>{c.size}</td>
+                  <td>{c.price}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
         {r.price.includes('*') && <p className="specs__note">{PRICE_NOTE}</p>}
 
         {r.paymentPlan && (

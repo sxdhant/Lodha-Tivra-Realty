@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import { useEffect } from 'react';
 import { CloseIcon, DownloadIcon } from '@/components/icons';
+import { GalleryViewer } from '@/components/GalleryViewer';
 import { useResidenceUI } from '@/components/ResidenceProvider';
 import { PRICE_NOTE, residences, type Residence } from '@/lib/residences';
 import { site } from '@/lib/site';
@@ -192,30 +193,11 @@ function ResidenceDetail({
           <h3 className="sheet__gallery-title" id="sheet-gallery-title">
             Gallery
           </h3>
-          {r.gallery ? (
-            <ul className="sheet__gallery-grid" tabIndex={0} aria-label={`${r.name} photos, scroll sideways`}>
-              {r.gallery.map((photo) => (
-                <li key={photo.src}>
-                  <Image
-                    src={photo.src}
-                    alt={photo.alt}
-                    width={photo.width}
-                    height={photo.height}
-                    sizes="20rem"
-                  />
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <Image
-              className="sheet__image sheet__image--second"
-              src={r.secondPhoto.src}
-              alt={r.secondPhoto.alt}
-              width={1400}
-              height={788}
-              sizes="(min-width: 60rem) 52rem, 100vw"
-            />
-          )}
+          <GalleryViewer
+            name={r.name}
+            photos={r.gallery ?? [{ ...r.secondPhoto, width: 1400, height: 788 }]}
+            strip={Boolean(r.gallery)}
+          />
         </section>
 
         <section className="sheet__gallery" aria-labelledby="sheet-location-title">

@@ -2894,6 +2894,128 @@ figure {
   background: var(--stone);
 }
 
+/* A gallery photo is a button that opens it full screen. */
+.gallery__open {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: zoom-in;
+}
+
+/* The full-screen photo: its own modal dialog above the sheet. */
+.viewer {
+  width: 100%;
+  max-width: none;
+  height: 100%;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: rgb(12 12 11 / 0.95);
+  color: var(--white);
+}
+
+.viewer[open] {
+  display: grid;
+  place-items: center;
+}
+
+.viewer::backdrop {
+  background: transparent;
+}
+
+.viewer__figure {
+  display: grid;
+  gap: 0.75rem;
+  justify-items: center;
+  margin: 0;
+  max-width: 94vw;
+}
+
+.viewer__image {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: min(94vw, 90rem);
+  max-height: 78vh;
+  border-radius: 0.375rem;
+}
+
+.viewer__caption {
+  max-width: 60ch;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  text-align: center;
+  color: rgb(245 241 233 / 0.8);
+}
+
+.viewer__count {
+  display: block;
+  margin-bottom: 0.25rem;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.1em;
+  color: var(--white);
+}
+
+.viewer__button {
+  position: absolute;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: 3rem;
+  height: 3rem;
+  border: 1px solid rgb(255 255 255 / 0.3);
+  border-radius: 50%;
+  background: rgb(255 255 255 / 0.12);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  color: var(--white);
+  cursor: pointer;
+  transition: background var(--dur-quick) ease, transform var(--dur-quick) ease;
+}
+
+.viewer__button:hover {
+  background: rgb(255 255 255 / 0.24);
+  transform: scale(1.06);
+}
+
+.viewer__button path {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+}
+
+.viewer__close {
+  top: 1rem;
+  right: 1rem;
+}
+
+.viewer__prev,
+.viewer__next {
+  top: 50%;
+  margin-top: -1.5rem;
+}
+
+.viewer__prev {
+  left: 1rem;
+}
+
+.viewer__next {
+  right: 1rem;
+}
+
+/* On a phone the arrows sit at the bottom corners, so they stay off the photo. */
+@media (max-width: 40rem) {
+  .viewer__prev,
+  .viewer__next {
+    top: auto;
+    bottom: 1.5rem;
+    margin-top: 0;
+  }
+}
+
 .sheet__image--second {
   width: 100%;
   margin: 1rem 0 0;

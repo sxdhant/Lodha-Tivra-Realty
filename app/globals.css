@@ -1684,17 +1684,20 @@ figure {
 
 /* Locations */
 
+/* Locations sits on the page's tan waves, so it takes the dark-on-light colours. */
 .where {
-  --focus: var(--gold);
+  --focus: var(--gold-deep);
+  --gold: var(--gold-deep);
+  --mist: var(--ink);
+  --mist-soft: var(--ink-soft);
+  --rule-dark: var(--rule);
   position: relative;
   isolation: isolate;
   padding-block: var(--section);
-  background: var(--night);
   color: var(--mist);
 }
 
-/* Fine grain, like cut granite, on the dark sections. */
-.where::before,
+/* Fine grain, like cut granite, on the dark footer. */
 .site-footer::before {
   content: "";
   position: absolute;
@@ -3449,8 +3452,6 @@ video {
   }
 }
 
-/* Shader backdrop */
-
 .shader-bg {
   position: fixed;
   inset: 0;
@@ -3458,11 +3459,10 @@ video {
   width: 100%;
   height: 100%;
   pointer-events: none;
-  /* Shown until (or instead of) the shader */
+  /* Shown until (or instead of) the shader: the same palette, low to high */
   background: linear-gradient(180deg, #624b31, #9b7657 40%, #dfba96 75%, #f9f1e7);
 }
-
-/* No WebGL, or the shader failed to compile: drift the palette so the page still has life */
+/* No WebGL, or the shader would not compile: slowly drift the palette gradient so the page still has life */
 .shader-bg[data-state="no-webgl"],
 .shader-bg[data-state="compile-failed"],
 .shader-bg[data-state="link-failed"] {
@@ -3484,19 +3484,14 @@ video {
   from { background-position: 0% 0%, 100% 100%, 50% 100%, 0 0; }
   to   { background-position: 100% 60%, 0% 20%, 20% 60%, 0 0; }
 }
-
-/* Ivory veil that keeps body text readable over the darkest part of the waves */
 .shader-veil {
   position: fixed;
   inset: 0;
   z-index: -1;
   pointer-events: none;
-  background: rgb(245 241 233 / 0.3); /* raise toward 0.5 if text contrast is poor */
+  background: rgb(245 241 233 / 0.3);
 }
-
 @media print {
   .shader-bg,
-  .shader-veil {
-    display: none;
-  }
+  .shader-veil { display: none; }
 }

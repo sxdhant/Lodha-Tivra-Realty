@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import { BloomField } from '@/components/BloomField';
 import { useResidenceUI } from '@/components/ResidenceProvider';
 import { residences } from '@/lib/residences';
 
@@ -30,7 +29,6 @@ export function WhereWeBuild() {
 
   return (
     <section className="where" id="where" aria-labelledby="where-title">
-      <BloomField />
       <div className="wrap grid">
         <div className="where__head">
           <h2 className="where__title" id="where-title">

@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from 'next';
 import { Jost, Newsreader } from 'next/font/google';
-import { ShaderBackground } from '@/components/ShaderBackground';
+import { ShaderBackground } from '@/components/shader-background';
 import { Splash } from '@/components/Splash';
 import { site } from '@/lib/site';
 import './globals.css';

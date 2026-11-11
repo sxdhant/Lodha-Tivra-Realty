@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import { BloomField } from '@/components/BloomField';
 import { BrandLogo } from '@/components/BrandLogo';
 import { DirectionsIcon, FacebookIcon, InstagramIcon, LinkedInIcon, MailIcon, PhoneIcon, WhatsAppIcon } from '@/components/icons';
 import { WhatsAppLink } from '@/components/WhatsAppLink';
@@ -11,6 +12,7 @@ const SOCIAL_ICONS = { Instagram: InstagramIcon, Facebook: FacebookIcon, LinkedI
 export function SiteFooter() {
   return (
     <footer className="site-footer">
+      <BloomField />
       <div className="wrap grid footer__grid">
         <div className="footer__brand">
           <div className="footer__logo">

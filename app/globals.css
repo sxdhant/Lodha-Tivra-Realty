@@ -3083,7 +3083,7 @@ figure {
 
 @media (max-width: 47.99rem) {
   :root {
-    --dock-h: calc(4.25rem + env(safe-area-inset-bottom));
+    --dock-h: calc(5rem + env(safe-area-inset-bottom));
   }
 
   /* Keep the page's end, and anything scrolled to or focused, clear of the dock. */
@@ -3095,20 +3095,25 @@ figure {
     padding-bottom: var(--dock-h);
   }
 
+  /* A floating glass bar, inset from the screen edges. */
   .dock {
     position: fixed;
-    inset: auto 0 0;
+    inset: auto 0.75rem max(0.75rem, env(safe-area-inset-bottom)) 0.75rem;
     z-index: 35;
     display: grid;
-    grid-template-columns: 0.8fr 1.2fr 1fr;
-    gap: 0.5rem;
-    padding: 0.625rem var(--frame) calc(0.625rem + env(safe-area-inset-bottom));
-    border-top: 1px solid var(--rule);
-    background: rgb(245 241 233 / 0.92);
-    -webkit-backdrop-filter: blur(12px);
-    backdrop-filter: blur(12px);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.375rem;
+    padding: 0.375rem;
+    border: 2px solid #0e0e0d;
+    border-radius: 0.875rem;
+    background:
+      radial-gradient(120% 90% at 0% 0%, rgb(255 255 255 / 0.14), rgb(255 255 255 / 0) 55%),
+      rgb(23 23 21 / 0.82);
+    -webkit-backdrop-filter: blur(16px) saturate(1.5);
+    backdrop-filter: blur(16px) saturate(1.5);
+    box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.18), 0 16px 34px -12px rgb(0 0 0 / 0.6);
     /* Below the screen, and out of the tab order, until the hero has scrolled away. */
-    transform: translateY(100%);
+    transform: translateY(calc(100% + 1.5rem));
     visibility: hidden;
     transition: transform var(--dur-base) var(--ease-out), visibility 0s linear var(--dur-base);
   }
@@ -3121,24 +3126,36 @@ figure {
 
   /* Out of the way while the visitor types into the form, where it would cover the field. */
   body:has(.enquiry :is(input, select, textarea):focus) .dock {
-    transform: translateY(100%);
+    transform: translateY(calc(100% + 1.5rem));
   }
 }
 
 .dock__action {
-  display: inline-flex;
+  display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.375rem;
-  min-height: 3rem;
-  border: 1px solid transparent;
-  border-radius: 0.375rem;
-  font-size: 0.875rem;
-  font-weight: 500;
+  gap: 0.4rem;
+  min-height: 2.75rem;
+  border: 1px solid rgb(245 241 233 / 0.28);
+  border-radius: 0.625rem;
+  /* Frosted ivory fill under a glossy two-tone sheen. */
+  background-color: rgb(245 241 233 / 0.1);
+  background-image: linear-gradient(
+    180deg,
+    rgb(255 255 255 / 0.3) 0%,
+    rgb(255 255 255 / 0.07) 50%,
+    rgb(0 0 0 / 0.06) 51%,
+    rgb(0 0 0 / 0.2) 100%
+  );
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.45), inset 0 -1px 0 rgb(0 0 0 / 0.25);
+  color: var(--ivory);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
   text-decoration: none;
   white-space: nowrap;
   touch-action: manipulation;
-  transition: background-color var(--dur-quick) ease, transform var(--dur-quick) ease;
+  transition: background-color 240ms var(--ease-out), transform 240ms var(--ease-out);
 }
 
 .dock__action:active {
@@ -3159,19 +3176,8 @@ figure {
   stroke-linejoin: round;
 }
 
-.dock__action--call {
-  border-color: var(--ink);
-  background: var(--white);
-  color: var(--ink);
-}
-
 .dock__action--whatsapp {
-  background: var(--whatsapp);
-  color: var(--white);
-}
-
-.dock__action--whatsapp:active {
-  background: var(--whatsapp-deep);
+  background-color: rgb(217 208 194 / 0.22);
 }
 
 .dock__action--whatsapp svg path {
@@ -3179,9 +3185,18 @@ figure {
   stroke: none;
 }
 
+/* Enquire is the one that matters, so it takes the champagne gold. */
 .dock__action--enquire {
-  background: var(--night);
-  color: var(--white);
+  border-color: rgb(203 180 135 / 0.9);
+  background-color: var(--gold);
+  color: var(--charcoal);
+}
+
+@media (max-width: 22.5rem) {
+  .dock__action {
+    gap: 0.3rem;
+    font-size: 0.75rem;
+  }
 }
 
 /* Reduced motion: keep every state change, drop the travel. */

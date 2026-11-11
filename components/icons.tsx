@@ -106,6 +106,14 @@ export function ChevronRightIcon() {
   );
 }
 
+export function SendIcon() {
+  return (
+    <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+      <path d="M22 2 11 13M22 2l-7 20-4-9-9-4z" />
+    </svg>
+  );
+}
+
 /** Outline glyphs for the footer's social links (Lucide, ISC). */
 export function InstagramIcon() {
   return (

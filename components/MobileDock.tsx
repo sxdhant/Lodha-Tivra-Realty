@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { CalendarIcon, PhoneIcon, WhatsAppIcon } from '@/components/icons';
+import { PhoneIcon, SendIcon, WhatsAppIcon } from '@/components/icons';
 import { useResidenceUI } from '@/components/ResidenceProvider';
 import { WhatsAppLink } from '@/components/WhatsAppLink';
 import { site } from '@/lib/site';
@@ -43,7 +43,7 @@ export function MobileDock() {
           openQuickEnquiry();
         }}
       >
-        <CalendarIcon />
+        <SendIcon />
         Enquire
       </a>
     </nav>

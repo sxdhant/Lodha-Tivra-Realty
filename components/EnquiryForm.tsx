@@ -4,7 +4,9 @@ import { useEffect, useRef, useState } from 'react';
 import { useResidenceUI, type EnquiryPurpose } from '@/components/ResidenceProvider';
 import { Select } from '@/components/Select';
 import { enquirableResidences } from '@/lib/residences';
-import { openWhatsApp } from '@/lib/openWhatsApp';
+import { EnquiryThanks } from '@/components/EnquiryThanks';
+import { sendEnquiry } from '@/lib/enquiry';
+import { site } from '@/lib/site';
 
 type Values = {
   name: string;
@@ -54,11 +56,14 @@ export function EnquiryForm() {
   const { enquiryRequest } = useResidenceUI();
   const [values, setValues] = useState<Values>(INITIAL);
   const [errors, setErrors] = useState<Errors>({});
+  const [status, setStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle');
+  const [honeypot, setHoneypot] = useState('');
   const fieldRefs = useRef<Partial<Record<CheckedField, HTMLInputElement | null>>>({});
 
   // Enquire, Brochure or "Request a viewing" on a residence lands here with that residence and request chosen.
   useEffect(() => {
     if (!enquiryRequest) return;
+    setStatus('idle');
     setValues((current) => ({
       ...current,
       purpose: enquiryRequest.purpose,
@@ -87,9 +92,10 @@ export function EnquiryForm() {
     if (values[field] !== '') check(field, values);
   };
 
-  // The request goes out as a WhatsApp message with the visitor's details typed into it.
-  const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  // The request is emailed to the team (see app/api/enquiry/route.ts), then the visitor sees a thank-you message.
+  const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    if (status === 'sending') return;
 
     const nextErrors: Errors = {};
     for (const field of CHECKED_FIELDS) {
@@ -103,33 +109,53 @@ export function EnquiryForm() {
       return;
     }
 
-    const brochure = values.purpose === 'brochure';
-    const project = enquirableResidences.find((r) => r.id === values.residence)?.name;
-    const lines = [
-      brochure
-        ? `Hello, I would like the brochure for ${project ?? 'your Lodha projects in Bengaluru'}.`
-        : project
-          ? `Hello, I would like to enquire about ${project}.`
-          : 'Hello, I would like to know more about Lodha residences in Bengaluru.',
-      '',
-      `Name: ${values.name.trim()}`,
-      `Phone: ${values.phone.trim()}`,
-      ...(values.email.trim() ? [`Email: ${values.email.trim()}`] : []),
-      `Project: ${project ?? 'Not decided yet'}`,
-      `Request: ${brochure ? 'Brochure' : 'Site Visit'}`,
-      ...(values.message.trim() ? [`Note: ${values.message.trim()}`] : []),
-    ];
-    const message = lines.join('\n');
-    // Straight to WhatsApp, with the message already typed.
-    openWhatsApp(message);
+    setStatus('sending');
+    const sent = await sendEnquiry({
+      source: 'form',
+      name: values.name.trim(),
+      phone: values.phone.trim(),
+      email: values.email.trim(),
+      purpose: values.purpose,
+      residence: values.residence,
+      message: values.message.trim(),
+      website: honeypot,
+    });
+    setStatus(sent ? 'sent' : 'error');
   };
 
   const describedBy = (field: CheckedField, hint?: string) =>
     [hint, errors[field] ? `f-${field}-error` : null].filter(Boolean).join(' ') || undefined;
 
+  if (status === 'sent') {
+    return (
+      <EnquiryThanks
+        name={values.name}
+        purpose={values.purpose}
+        action={
+          <button
+            className="button"
+            type="button"
+            onClick={() => {
+              setValues(INITIAL);
+              setErrors({});
+              setStatus('idle');
+            }}
+          >
+            Send another request
+          </button>
+        }
+      />
+    );
+  }
+
   return (
     <form className="enquiry" noValidate onSubmit={onSubmit}>
       <p className="enquiry__note">All fields are required unless marked optional.</p>
+
+      <div className="visually-hidden" aria-hidden="true">
+        <label htmlFor="f-website">Leave this field empty</label>
+        <input id="f-website" name="website" type="text" tabIndex={-1} autoComplete="off" value={honeypot} onChange={(e) => setHoneypot(e.target.value)} />
+      </div>
 
       <div className="field">
         <label htmlFor="f-name">Full name</label>
@@ -242,8 +268,17 @@ export function EnquiryForm() {
       </div>
 
       <div className="enquiry__submit field--full">
-        <button className="button" type="submit">
-          {values.purpose === 'brochure' ? 'Request the brochure' : 'Request a site visit'}
+        {status === 'error' && (
+          <p className="field__error" role="alert">
+            We could not send your request. Please try again, or call us on {site.phone.display}.
+          </p>
+        )}
+        <button className="button" type="submit" disabled={status === 'sending'}>
+          {status === 'sending'
+            ? 'Sending…'
+            : values.purpose === 'brochure'
+              ? 'Request the brochure'
+              : 'Request a site visit'}
         </button>
       </div>
     </form>

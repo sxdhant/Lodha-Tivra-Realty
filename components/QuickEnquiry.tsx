@@ -4,7 +4,9 @@ import { useEffect, useRef, useState } from 'react';
 import { CloseIcon } from '@/components/icons';
 import { useResidenceUI } from '@/components/ResidenceProvider';
 import { enquirableResidences } from '@/lib/residences';
-import { openWhatsApp } from '@/lib/openWhatsApp';
+import { EnquiryThanks } from '@/components/EnquiryThanks';
+import { sendEnquiry } from '@/lib/enquiry';
+import { site } from '@/lib/site';
 
 type Errors = { name?: string; phone?: string };
 
@@ -19,6 +21,8 @@ export function QuickEnquiry() {
   const [residence, setResidence] = useState('any');
   const [purpose, setPurpose] = useState<'viewing' | 'brochure'>('viewing');
   const [errors, setErrors] = useState<Errors>({});
+  const [status, setStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle');
+  const [honeypot, setHoneypot] = useState('');
 
   useEffect(() => {
     const dialog = dialogRef.current;
@@ -27,6 +31,7 @@ export function QuickEnquiry() {
       setResidence(enquirableResidences.some((r) => r.id === quickEnquiry.residence) ? quickEnquiry.residence : 'any');
       setPurpose(quickEnquiry.purpose);
       setErrors({});
+      setStatus('idle');
       dialog.showModal();
       nameRef.current?.focus();
     } else if (!quickEnquiry && dialog.open) {
@@ -42,30 +47,25 @@ export function QuickEnquiry() {
     return next;
   };
 
-  // The enquiry goes out as a WhatsApp message, with what the visitor filled in typed into it.
-  const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  // The enquiry is emailed to the team (see app/api/enquiry/route.ts), then the visitor sees a thank-you message.
+  const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    if (status === 'sending') return;
     const next = check();
     setErrors(next);
     if (next.name) return nameRef.current?.focus();
     if (next.phone) return phoneRef.current?.focus();
 
-    const project = enquirableResidences.find((r) => r.id === residence)?.name;
-    const brochure = purpose === 'brochure';
-    const message = [
-      brochure
-        ? `Hello, I would like the brochure for ${project ?? 'your Lodha projects in Bengaluru'}.`
-        : project
-          ? `Hello, I would like to enquire about ${project}.`
-          : 'Hello, I would like to know more about Lodha residences in Bengaluru.',
-      '',
-      `Name: ${name.trim()}`,
-      `Phone: ${phone.trim()}`,
-      `Project: ${project ?? 'Not decided yet'}`,
-      ...(brochure ? ['Request: Brochure'] : []),
-    ].join('\n');
-    // Straight to WhatsApp, with the message already typed.
-    openWhatsApp(message);
+    setStatus('sending');
+    const sent = await sendEnquiry({
+      source: 'quick',
+      name: name.trim(),
+      phone: phone.trim(),
+      purpose,
+      residence,
+      website: honeypot,
+    });
+    setStatus(sent ? 'sent' : 'error');
   };
 
   return (
@@ -87,14 +87,28 @@ export function QuickEnquiry() {
         <CloseIcon />
       </button>
 
+      {status === 'sent' ? (
+        <div className="quick__body">
+          <EnquiryThanks
+            name={name}
+            purpose={purpose}
+            titleId="quick-title"
+            action={
+              <button className="button quick__send" type="button" onClick={() => dialogRef.current?.close()}>
+                Close
+              </button>
+            }
+          />
+        </div>
+      ) : (
       <form className="quick__body" noValidate onSubmit={onSubmit}>
           <h2 className="quick__title" id="quick-title">
             {purpose === 'brochure' ? 'Get the brochure' : 'Enquire now'}
           </h2>
           <p className="quick__lede">
             {purpose === 'brochure'
-              ? 'Leave your details and we will send the brochure on WhatsApp.'
-              : 'Leave your details and we will pick the chat up on WhatsApp.'}
+              ? 'Leave your details and we will send you the brochure.'
+              : 'Leave your details and we will call you back shortly.'}
           </p>
 
           <div className="field">
@@ -154,11 +168,21 @@ export function QuickEnquiry() {
             </select>
           </div>
 
-          <button className="button quick__send" type="submit">
-            Send enquiry
+          <div className="visually-hidden" aria-hidden="true">
+            <label htmlFor="q-website">Leave this field empty</label>
+            <input id="q-website" name="website" type="text" tabIndex={-1} autoComplete="off" value={honeypot} onChange={(e) => setHoneypot(e.target.value)} />
+          </div>
+          {status === 'error' && (
+            <p className="field__error" role="alert">
+              We could not send your enquiry. Please try again, or call us on {site.phone.display}.
+            </p>
+          )}
+          <button className="button quick__send" type="submit" disabled={status === 'sending'}>
+            {status === 'sending' ? 'Sending…' : 'Send enquiry'}
           </button>
-          <p className="quick__fine">By sending, you agree to be contacted about this request by phone or WhatsApp.</p>
+          <p className="quick__fine">By sending, you agree to be contacted about this request by phone, email or WhatsApp.</p>
         </form>
+      )}
     </dialog>
   );
 }

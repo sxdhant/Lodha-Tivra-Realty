@@ -2,10 +2,12 @@
 // The Karnataka RERA agent registration number is Tivra Realty's own.
 export const site = {
   name: 'Lodha Preferred Partner',
-  // Replace with your firm's registered name as it should appear in the copyright line.
-  legalName: 'Lodha Preferred Partner',
+  // The firm's name, as it appears in the copyright line, the search result and the structured data.
+  legalName: 'Tivra Realty',
+  // The firm's main website, linked from the footer.
+  parentSite: { label: 'tivrarealty.com', href: 'https://tivrarealty.com' },
   description:
-    'Private viewings and plain advice on Lodha’s luxury residences in Bengaluru, from a Lodha Preferred Partner. Explore Lodha Elanza, Azur and Haven.',
+    'Tivra Realty, a Lodha Preferred Partner, offers private viewings and plain advice on Lodha’s luxury residences in Bengaluru. Explore Elanza, Azur and Haven.',
   logo: {
     original: '/brand/lodha-preferred-partner.png',
     reversed: '/brand/lodha-preferred-partner-reversed.png',

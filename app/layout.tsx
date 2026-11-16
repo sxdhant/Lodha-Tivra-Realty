@@ -21,7 +21,7 @@ const jost = Jost({
 });
 
 // Kept under about 60 characters so search results do not cut it off.
-const title = `${site.name} | Luxury Homes in Bengaluru`;
+const title = `${site.legalName} | ${site.name} in Bengaluru`;
 const shareImage = { url: '/og.jpg', width: 1200, height: 630, alt: 'A resort-style pool deck at dusk beside a Lodha residence' };
 
 export const metadata: Metadata = {
@@ -34,7 +34,7 @@ export const metadata: Metadata = {
     description: site.description,
     type: 'website',
     locale: 'en_IN',
-    siteName: site.name,
+    siteName: site.legalName,
     url: '/',
     images: [shareImage],
   },

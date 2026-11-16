@@ -2542,6 +2542,17 @@ figure {
   color: var(--mist-soft);
 }
 
+.footer__legal-link {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  transition: color var(--dur-quick) ease;
+}
+
+.footer__legal-link:hover {
+  color: var(--white);
+}
+
 @media (min-width: 40rem) {
   .footer__col {
     grid-column: span 4;

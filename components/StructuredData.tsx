@@ -6,6 +6,7 @@ export function StructuredData() {
     '@context': 'https://schema.org',
     '@type': 'RealEstateAgent',
     name: site.legalName,
+    alternateName: site.name,
     description: site.description,
     url: siteUrl,
     logo: `${siteUrl}${site.logo.original}`,
@@ -21,7 +22,7 @@ export function StructuredData() {
       addressCountry: 'IN',
     },
     areaServed: { '@type': 'City', name: 'Bengaluru' },
-    sameAs: site.social.map((link) => link.href),
+    sameAs: [site.parentSite.href, ...site.social.map((link) => link.href)],
   };
 
   return (

@@ -95,7 +95,10 @@ export function SiteFooter() {
           Karnataka RERA for each project are final. Karnataka RERA agent registration {site.reraAgent}.
         </p>
         <p>
-          © {new Date().getFullYear()} {site.legalName}
+          © {new Date().getFullYear()} {site.name} ·{' '}
+          <a className="footer__legal-link" href={site.parentSite.href}>
+            {site.parentSite.label}
+          </a>
         </p>
       </div>
     </footer>

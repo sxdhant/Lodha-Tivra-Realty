@@ -3523,46 +3523,6 @@ video {
   }
 }
 
-/* Small, bottom centre of the splash: who the channel partner is. */
-.splash__partner {
-  position: absolute;
-  bottom: max(1.75rem, env(safe-area-inset-bottom));
-  left: 50%;
-  z-index: 1;
-  display: grid;
-  justify-items: center;
-  gap: 0.375rem;
-  translate: -50% 0;
-  animation: splash-partner 900ms var(--ease-out) 1000ms both, splash-inner-out 600ms ease-in 1700ms forwards;
-}
-
-.splash__partner p {
-  margin: 0;
-  font-size: 0.5625rem;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--ink-soft);
-}
-
-.splash__partner img {
-  display: block;
-  width: 5rem;
-  height: auto;
-}
-
-@keyframes splash-partner {
-  from {
-    opacity: 0;
-    transform: translateY(0.5rem);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .splash__partner {
-    animation: none;
-  }
-}
-
 .shader-bg {
   position: fixed;
   inset: 0;
